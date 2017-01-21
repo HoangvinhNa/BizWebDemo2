@@ -1,0 +1,60 @@
+﻿@model BizwebTutorial.Models.CustomerLoginModel
+
+<link href="/Assets/FrontEndCss/CustomerStyle.css" rel="stylesheet" />
+<link href="~/Assets/FrontEndCss/HoverCat.css" rel="stylesheet" />
+<div class="register">
+    <div class="title_cart">
+        <h2>đăng ký tài khoản</h2>
+        <p>Nếu bạn có một tài khoản, xin vui lòng chuyển qua trang đăng nhập</p>
+    </div>
+    <div class="form_regd">
+        @using (Html.BeginForm("CustomerResgistration", "CustomerLogin", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+        {
+
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary("", new { @class = "text-danger" })
+            <div class="form-group">
+                <label class="control-label"><strong> Nhập Tên</strong></label>
+                @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @placeholder = "Nhập Tên" })
+                @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                <label class="control-label"><strong> Nhập Email</strong></label>
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "Nhập Email" })
+                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                <label class="control-label"><strong> Nhập Password</strong></label>
+                @Html.TextBoxFor(m => m.Password, new { @class = "form-control", @placeholder = "Nhập Password", @type = "password" })
+                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                <label class="control-label"><strong> Nhập Lại Password</strong></label>
+                 <input class="form-control" id="confirm" onchange="checkpass()" type="password" placeholder="Nhập lại password..." />
+              
+            </div>
+                <div class="group_button">
+                    <button type="submit" class="btn btn-defaut">Đăng Kí</button>
+                    <a href="/dang-nhap">
+                        <input type="button" class="btn btn-defaut" value="Quay Lại" />
+                    </a>
+                </div>
+        }
+    </div>
+</div>
+<style>
+    .form-group{
+        margin-bottom:20px;
+    }
+</style>
+<script>
+    function checkpass() {
+        var c = $('#Password').val();
+        var r = $('#confirm').val();
+        if (c != r) {
+            alert("bạn nhập không trùng mật khẩu", "bạn nhập không trùng mật khẩu");
+            $('#confirm').val('');
+        }
+    }
+    
+</script>

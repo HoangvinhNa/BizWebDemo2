@@ -1,0 +1,8 @@
+﻿@model IEnumerable<Models.EF.Category>
+
+    <ul>
+        @foreach (var item in Model)
+        {
+            <li><a href="/danh-muc/@item.Alias">@item.Name</a></li>
+        }
+    </ul>

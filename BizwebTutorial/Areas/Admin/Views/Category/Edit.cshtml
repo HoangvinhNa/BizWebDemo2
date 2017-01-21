@@ -1,0 +1,375 @@
+﻿@model Models.ViewModel.CategoryEditModel
+@{
+    ViewBag.Title = "Edit";
+}
+<link href="~/Assets/dist/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+<link href="~/Assets/Admin/Categorystyle.css" rel="stylesheet" />
+@using (Html.BeginForm("Edit", "Category", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <header class="navbar-fixed-top" style="margin-left:240px;">
+        <nav class="navbar navbar-default navbar-static-top no-margin" role="navigation" style="min-height:60px;">
+            <div class="col-md-9 topheaderad">
+                <h4>
+                    <i class="fa fa-lg fa-fw fa-tag"></i> Danh mục sản phẩm <strong>/</strong> Thêm Mới
+                </h4>
+            </div>
+            <div class="col-md-3 topheaderad">
+                <div class="group_button submitab">
+                    <a href="/Admin/Category/Create" style="text-decoration:none;">
+                        <input type="button" class="btn btn-default" value="Thêm mới" />
+                    </a>
+                    <input type="submit" class="btn btn-default" value="Lưu" />
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container-fluid-md">
+        <div class="row">
+            <div class="col-md-4 col-lg-3">
+                @if (Model.Image != null)
+                {
+                    <h4>Nội dung danh mục</h4>
+                    <p class="text-muted" id="abcd">Chọn ảnh đại diện.</p>
+                    var Urlcontent = Model.Image.Replace("~", "");
+                    @Html.HiddenFor(m => m.Image)
+                    <div style="margin-bottom:20px;margin-top:20px;">
+                        <img src="@Urlcontent" id="output" height="150" width="150" style="margin-top:20px;" />
+                    </div>
+                    <div class="btn btn-default btn-primary">
+                        <a id="AddImage">Sửa Ảnh</a>
+                    </div>
+                    <p class="text-muted" id="abcd">Thêm ảnh đại diện cho danh mục sản phẩm</p>
+                    <input class="inputfile" type="file" name="file" id="inputUpload" onchange="loadFile(event)" style="display:none;" />
+
+                }
+                else
+                {
+                    <h4>Nội dung danh mục</h4>
+                    <p class="text-muted" id="abcd">Chọn ảnh đại diện.</p>
+                    <div style="margin-bottom:20px;margin-top:20px;">
+                        <img id="output" width="150" height="150" />
+                    </div>
+                    <div class="btn btn-default btn-primary">
+                        <a id="AddImage">Sửa Ảnh</a>
+                    </div>
+                    <input class="inputfile" style="display:none;" type="file" name="file" id="inputUpload" onchange="loadFile(event)" />
+                }
+            </div>
+            <div class="col-md-8 col-lg-9">
+                <div class="panel panel-default panel-light">
+                    <div class="panel-body">
+                        @Html.ValidationSummary("", new { @class = "text-danger" })
+                        <div class="form-group">
+                            <label class="control-label cm-strong"><strong>Tên Danh Mục</strong></label>
+                            @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Name)
+                            @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label cm-strong"><strong>Mô Tả</strong></label>
+                            @Html.TextAreaFor(model => model.Description, new { @class = "form-control ckeditor" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-lg-3">
+                <h4>Tối ưu SEO</h4>
+                <p class="text-muted" id="btn-upload-collection-image">Thiết lập thẻ tiêu đề, thẻ mô tả, đường dẫn. Những thông tin này xác định cách danh mục xuất hiện trên công cụ tìm kiếm.</p>
+            </div>
+            <div class="col-md-8 col-lg-9">
+                <div class="panel panel-default panel-light">
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label class="control-label cm-strong"><strong>Tiêu Đề Trang</strong></label>
+                            @Html.TextBoxFor(model => model.MetaTittle, new { @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label cm-strong"><strong>Thẻ Mô Tả</strong></label>
+                            @Html.TextAreaFor(model => model.MetaDiscription, new { @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label cm-strong"><strong>Đường Dẫn/Alias</strong></label>
+                            @Html.TextBoxFor(model => model.Alias, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-lg-3">
+                <h4>Thêm Sản Phẩm</h4>
+                <p class="text-muted" id="btn-upload-collection-image">Cho phép thêm sản phẩm</p>
+                <div class="form-group">
+                    <a class="btn btn-white dropdown-search dropdown-toggle" data-toggle="dropdown" style="border-radius:4px">
+                        <div style="overflow: hidden;text-overflow: ellipsis;max-width:158px;display:inline-block;float:left;margin-right: 5px;">
+                            <span id="text_Product">Chọn sản phẩm</span>
+                        </div>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-fix dropdown-menu-search" role="menu">
+                        <div class="dropdown-search-header" id="dropdown_search_header_2">
+                            <input class="form-control" id="dropdown_search_input_2" placeholder="Tìm kiếm sản phẩm" type="text" />
+                        </div>
+                        <div class="dropdown-search-body" id="dropdown_search_body_2">
+                            <div class="dropdown-menu-result" id="dropdown_menu_result_2">
+                                @*Here Is ProductShow*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8 col-lg-9">
+                <div class="panel panel-default panel-light">
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <ul class="list-product">
+                                @if (Model.ListProduct != null && Model.ListProduct.Count > 0)
+                                {
+                                    foreach (var item in Model.ListProduct)
+                                    {
+                                        <li data-product-id="@item.ProductId">
+                                            <table  style="width:100%;">
+                                                <tbody>
+                                                    <tr>
+                                                        <td style="width:20%;text-align:center;"><img src="@Url.Content(item.ProductImage)" width="40" height="40" /></td>
+                                                        <td style="width:60%;text-align:center;">@item.ProductName</td>
+                                                        <td style="width:20%;text-align:center;"><a class="GetProductOut" data-id="@item.ProductId"><i class="fa fa-trash-o"></i></a></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </li>
+                                    }
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-lg-3">
+                <h4>Trạng thái</h4>
+                <p class="text-muted" id="btn-upload-collection-image">Cho phép thiết lập thời gian sản phẩm được hiển thị.</p>
+            </div>
+            <div class="col-md-8 col-lg-9">
+                <div class="panel panel-default panel-light">
+                    <div class="panel-body">
+                        @Html.CheckBoxFor(model => model.IsVisible)
+                        <label class="control-label cm-strong"><strong>Hiển Thị Sản Phẩm</strong></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group" style="padding-bottom:50px;padding-top:50px;">
+
+                <input type="submit" value="Lưu Danh Mục" class="btn btn-default btn-primary pull-right " />
+                <input type="button" value="Xóa Danh Mục" id="deletebutton" class="btn btn-default btn-danger pull-left " style="margin-left:60px;" />
+
+            </div>
+        </div>
+        <div class="modal fade" id="deleteModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Xóa Danh Mục Sản Phẩm</h4>
+                    </div>
+                    <div class="modal-body">
+                        <h3>Bạn có chắc muốn xóa danh mục : @Model.Name?</h3>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="form-group">
+                            <a href="/Admin/Category/Delete/@Model.Id">
+                                <input type="button" class="btn btn-default btn-danger" value="Xóa">
+                            </a>
+                            <input type="button" class="btn btn-default" value="Hủy" data-dismiss="modal">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script>
+    $(document).ready(function () {
+        $("#deletebutton").click(function () {
+            $("#deleteModal").modal();
+        });
+        $('#Name').change(function () {
+            var c = $('#Name').val();
+            $('#MetaTittle').val(c);
+        });
+        $('#Name').change(function () {
+            var c = $('#Name').val();
+            var r = Destruction(c);
+            $('#Alias').val(r);
+        });
+        $('#dropdown_search_input_2').keyup(function () {
+            getSuggestProducts();
+        });
+    });
+    function getSuggestProducts(inputPage) {
+        var query = $("#dropdown_search_input_2").val();
+        if (!query || !$.trim(query)) {
+            query = "";
+        }
+        var page = parseInt(inputPage) || 1;
+        $.ajax({
+            type: "GET",
+            url: '/Admin/Category/ProductShow?searchstring=' + query + '&page=' + page,
+            contentType: "application/json",
+            success: function (data) {
+                $('#dropdown_menu_result_2').fadeTo(0, 0).html(data).fadeTo(200, 1);
+                CheckIdProduct();
+                selectProduct();
+            }
+        });
+    };
+
+    function getProductIdSelected() {
+        var productIdSelected = [];
+        $('.list-product li').each(function () {
+            var _item = $(this);
+            var productId = _item.attr('data-product-id')
+            productIdSelected.push(productId);
+        });
+        return productIdSelected;
+    };
+    function getIDProductRightView() {
+        var IdProductView = [];
+        $('.dropdown-menu-result .dropdown-menu-inner li').each(function () {
+            var _itemview = $(this);
+            var _productIdview = _itemview.attr('product-id')
+            IdProductView.push(_productIdview);
+        });
+        return IdProductView;
+    };
+    function CheckIdProduct() {
+        var proselect = getProductIdSelected();
+        var productidview = getIDProductRightView();
+        for (var i = 0; i < proselect.length; i++) {
+            for (var j = 0; j < productidview.length; j++) {
+                if (productidview[j] == proselect[i]) {
+                    $('.itemproduct[product-id="' + productidview[j] + '"]').addClass('selected');
+                }
+            }
+        }
+    };
+    function selectProduct() {
+        $('#dropdown_menu_result_2  .itemproduct').click(function () {
+            var _itemliclass = $(this);
+            var id = _itemliclass.attr('data-productId');
+            var name = _itemliclass.attr('data-productName');
+            var image = _itemliclass.attr('data-productImage');
+            var class_li = _itemliclass.attr('class');
+            var htmlhasimage = "<li data-product-id='" + id + "'>" +
+                                            "<table style='width:100%;'>" +
+                                                "<tbody>" +
+                                                    "<tr>" +
+                                                        "<td style='width:20%;text-align:center;'><img src='" + image + "' width='40' height='40' /></td>" +
+                                                        "<td style='width:60%;text-align:center;'>" + name + "</td>" +
+                                                        "<td style='width:20%;text-align:center;'><a class='GetProductOut' data-id='" + id + "'><i class='fa fa-trash-o'></i></a></td>" +
+                                                    "</tr>" +
+                                                "</tbody>" +
+                                            "</table>" +
+                                        "</li>";
+            if (_itemliclass.hasClass('selected') == false) {
+                $.ajax({
+                    url: '/Admin/Category/AddProduct?categoryId=@Model.Id&productId=' + id + '',
+                    type: 'GET',
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) {
+                        _itemliclass.addClass('selected');
+                        $('.list-product').append(htmlhasimage);
+                        $('#dropdown_search_input_2').val("");
+                    }
+                });
+            } else {
+                $.ajax({
+                    url: '/Admin/Category/DeleteProduct?categoryId=@Model.Id&productId=' + id + '',
+                    type: 'GET',
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) {
+                        _itemliclass.removeClass('selected');
+                        $('.list-product li[data-product-id="' + id + '"]').remove();
+                        $('#dropdown_search_input_2').val("");
+                    }
+                });
+            }
+        });
+    }
+    $('ul.list-product a.GetProductOut').click(function () {
+        console.log('anh nho em');
+        var itemDelete = $(this);
+        var Idproduct = itemDelete.attr('data-id');
+        $.ajax({
+            url: '/Admin/Category/DeleteProduct?categoryId=@Model.Id&productId=' + Idproduct + '',
+            type: 'GET',
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                $('#dropdown_menu_result_2  li.itemproduct[product-id="' + Idproduct + '"]').removeClass('selected');
+                $('.list-product li[data-product-id="' + Idproduct + '"]').remove();
+            }
+        });
+    });
+</script>
+<style>
+    #AddImage {
+        float: left;
+        text-decoration: none;
+        color: #fff;
+    }
+    #abcd {
+        margin-top: 10px;
+    }
+
+    li {
+        list-style: none;
+    }
+
+    .validation-summary-errors ul {
+        padding-left: 0px;
+    }
+
+    ul#dropdown_menu_inner_2 {
+        padding-left: 0px;
+    }
+
+    li.itemproduct.selected .Liselectedcontent:before {
+        content: "O";
+    }
+
+    li.itemproduct {
+        padding-left: 10px;
+    }
+</style>
+<script>
+    $('#AddImage').click(function () {
+        $('.inputfile').click();
+    });
+    var loadFile = function (event) {
+        var reader = new FileReader();
+        reader.onload = function () {
+            var output = document.getElementById('output');
+            output.src = reader.result;
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    };
+    function Destruction(str) {
+        str = str.toLowerCase();
+        str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, 'a');
+        str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, 'e');
+        str = str.replace(/ì|í|ị|ỉ|ĩ/g, 'i');
+        str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, 'o');
+        str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, 'u');
+        str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, 'y');
+        str = str.replace(/đ/g, 'd');
+        str = str.split(' ').join('-');
+        return str;
+    };
+
+</script>

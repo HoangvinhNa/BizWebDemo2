@@ -1,0 +1,246 @@
+﻿@model Models.ViewModel.OrderModel
+@{
+    ViewBag.Title = "Create";
+}
+<link href="~/Assets/Admin/OrderCreate.css" rel="stylesheet" />
+@using (Html.BeginForm("Create", "Order", null, FormMethod.Post, new { enctype = "multipart/form-data", @id = "Formordercreate" }))
+{
+    @Html.AntiForgeryToken()
+    <header class="navbar-fixed-top" style="margin-left:240px;">
+        <nav class="navbar navbar-default navbar-static-top no-margin" role="navigation" style="min-height:60px;">
+            <div class="col-md-9 topheaderad">
+                <h4>
+                    <i class="fa fa-lg fa-fw fa-credit-card"></i> Đơn Hàng <strong>/</strong>Thêm Mới
+                </h4>
+            </div>
+            <div class="col-md-3 topheaderad">
+
+            </div>
+        </nav>
+    </header>
+    <div class="container-fluid-md">
+
+        <div class="row">
+            <div class="col-sm-8">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <h3 class="panel-title no-margin-top margin-md-bottom">Chi tiết đơn hàng</h3>
+                        <div id="Product_append">
+                            @*here's product's append*@
+                            @Html.HiddenFor(m => m.LineItems)
+                        </div>
+                        <div class="dropdown-search-header" id="dropdown_search_header_2">
+                            <input class="form-control" id="dropdown_search_input_2" placeholder="Tìm kiếm sản phẩm" type="text" />
+                        </div>
+                        <div class="dropdown-search-body" id="dropdown_search_body_2">
+                            <div class="dropdown-menu-result" id="dropdown_menu_result_2">
+                                @*Here Is ProductShow*@
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="wrappable">
+                            <div class="wrappable__item">
+                                <div class="next-input-wrapper">
+                                    <label class="control-label">
+                                        <strong>Ghi chú</strong>
+
+                                    </label>
+                                    @Html.TextAreaFor(m => m.Note, new { @class = "form-control ckeditor", @placeholder = "Thêm ghi chú cho đơn hàng" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="wrappable__item">
+                            <h2 class="next-heading next-heading--no-margin">
+                                Xác nhận thanh toán
+                            </h2>
+                        </div>
+                        <div class="wrappable__item wrappable__item--no-flex">
+                            @Html.HiddenFor(m => m.Payment)
+                            <button type="button" class="btn btn-default btn-primary" id="BtnPayment">Đã Thanh Toán</button>
+                            <button type="button" class="btn btn-default btn-primary" id="BtnPaymentlatter">Thanh Toán Sau</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="panel panel-default">
+                    <div class="panel-body" id="PanelBodySearch">
+                        <h3 class="panel-title no-margin-top margin-md-bottom">Tìm kiếm hay thêm mới khách hàng</h3>
+                        <input type="text" class="form-control" id="input_search_Customer" placeholder="Tìm kiếm khách hàng">
+                        <div class="Customer_result_page">
+                            @*Here's Custormer*@
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div id="AppendingCustomer">
+                            @Html.HiddenFor(m => m.CustomerId)
+                            @Html.HiddenFor(m => m.CustomerName)
+                            @Html.HiddenFor(m => m.CustomerEmail)
+                            @Html.HiddenFor(m => m.CustomerAdress)
+                            @Html.HiddenFor(m => m.CustomerPhone)
+                            @*here's Custormer appending*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script>
+    $(document).ready(function () {
+        $('#dropdown_search_input_2').keyup(function () {
+            getSuggestProducts();
+        });
+        $('#input_search_Customer').keyup(function () {
+
+            getSuggestCustormer();
+        });
+    });
+    function getSuggestProducts(inputPage) {
+        var query = $("#dropdown_search_input_2").val();
+        if (!query || !$.trim(query)) {
+            query = "";
+        }
+        var page = parseInt(inputPage) || 1;
+        $.ajax({
+            type: "GET",
+            url: '/Admin/Order/ProductForOrderView?searchstring=' + query + '&page=' + page,
+            contentType: "application/json",
+            success: function (data) {
+                $('#dropdown_menu_result_2').fadeTo(0, 0).html(data).fadeTo(200, 1);
+                selectToAppendProduct();
+            }
+        });
+    };
+    function selectToAppendProduct() {
+        $('#dropdown_menu_result_2 li.itemProduct').click(function () {
+            var _itemliclass = $(this);
+            var _dataproid = _itemliclass.attr('data-proid');
+            var _dataproimage = _itemliclass.attr('data-proimage');
+            var _dataproprice = _itemliclass.attr('data-proprice');
+            var _dataproname = _itemliclass.attr('data-proname');
+            var LineItems =
+                "<li class='liIsappendedd' data-idproduct='" + _dataproid + "' data-proprice='" + _dataproprice + "' data-proname='" + _dataproname + "' data-proimage='" + _dataproimage + "'>"
+                + " <table style='width:100%;'>"
+                + " <tbody>"
+                + " <tr>"
+                + "<td style='width:10%;'>" + "<img src=" + _dataproimage + " width='" + 50 + "' height='" + 50 + "'/>" + "</td>"
+                + "<td style='width:30%;text-align:center;'>" + _dataproname + "</td>"
+                + "<td style='width:20%;text-align:center;'>" + _dataproprice + " " + "đ" + "</td>"
+                + "<td style='width:30%;text-align:center;'>" + "<input type='number' class='form-control quantitylineitem' value='1' data-idproduct='" + _dataproid + "' style='width:70px;margin-left: 70px;'/>" + "</td>"
+                + "<td style='width:10%;text-align:center;'>" + "<a href='javascript:;' onclick='DeleteProduct()' class='btn_delete' idTodelete='" + _dataproid + "'><i class='fa fa-trash-o'></i></a>" + "</td>"
+                + " </tr>"
+                + " </tbody>"
+                + " </table>"
+                + "</li>";
+            if (_itemliclass.hasClass('selected') == false) {
+                _itemliclass.addClass('selected');
+                $('#Product_append').append(LineItems);
+                $('#dropdown_menu_result_2').hide();
+            } else {
+                $('#Product_append').append(null);
+                $('#dropdown_menu_result_2').hide();
+            }
+        });
+    }
+    function DeleteProduct() {
+        var _itemclick = $('.btn_delete');
+        var Id = _itemclick.attr('idTodelete');
+        $('#dropdown_menu_result_2 .itemProduct[data-proid="' + Id + '"]').removeClass('selected');
+        $('#Product_append .liIsappendedd[data-idproduct="' + Id + '"]').remove();
+    };
+    function getSuggestCustormer(inputPage) {
+        var query = $("#input_search_Customer").val();
+        if (!query || !$.trim(query)) {
+            query = "";
+        }
+        var page = parseInt(inputPage) || 1;
+        $.ajax({
+            type: "GET",
+            url: '/Admin/Order/CustomerForOrderView?searchstring=' + query + '&page=' + page,
+            contentType: "application/json",
+            success: function (data) {
+                $('.Customer_result_page').fadeTo(0, 0).html(data).fadeTo(200, 1);
+                sellectedToAppendCustomer();
+            }
+        });
+    };
+    function sellectedToAppendCustomer() {
+        $('.Customer_result_page .itemCustormer').click(function () {
+            var item_customer = $(this);
+            var idcustomer = item_customer.attr('data-cusid');
+            var namecustormer = item_customer.attr('data-cusname');
+            var emailcustormer = item_customer.attr('data-cusemail');
+            var addresscustormer = item_customer.attr('data-cusaddress');
+            var phonecus = item_customer.attr('data-phone');
+            var htmlstring =
+                "<li class='custormerappding' data-idcustomer='" + idcustomer + "' data-namecustomer='" + namecustormer + "' data-emailcustomer='" + emailcustormer + "' data-addresscustomer='" + addresscustormer + "'>"
+                + "<div class='abd'>"
+                + "<a href='javascript:;' onclick='#' class='btn_deletecus' idTodeletecus='" + idcustomer + "'><i class='fa fa-trash-o'></i></a>"
+                + "<p>" + "<i class='fa fa-lg fa-fw fa-users'></i>" + " " + namecustormer + "</p>" + "<br/>"
+                + "<p>" + "<i class='fa fa-lg fa-fw fa fa-envelope'></i>" + " " + emailcustormer + "</p>" + "<br/>"
+                + "<p>" + "<i class='fa fa-lg fa-fw fa-phone'></i>" + " " + phonecus + "</p>" + "<br/>"
+                + "<p>" + "<i class='fa fa-lg fa-fw fa-building'></i>" + " " + addresscustormer + "</p>"
+                + "</div>"
+                + "</li>";
+            $('#AppendingCustomer').append(htmlstring);
+            $('#CustomerId').val(idcustomer);
+            $('#CustomerName').val(namecustormer);
+            $('#CustomerEmail').val(emailcustormer);
+            $('#CustomerAdress').val(addresscustormer);
+            $('#CustomerPhone').val(phonecus);
+            $('#PanelBodySearch').hide();
+        });
+    }
+    function getTolistObjects() {
+        var listObjectProduct = [];
+        $('#Product_append .liIsappendedd').each(function () {
+            var _item = $(this);
+            var Id = parseInt(_item.attr('data-idproduct'));
+            var NameProduct = _item.attr('data-proname');
+            var ImageProduct = _item.attr('data-proimage');
+            var PriceProduct = parseFloat(_item.attr('data-proprice'));
+            var QuantityProduct = parseInt($('#Product_append li input[data-idproduct="' + Id + '"]').val());
+            objectproduct = { Id, NameProduct, ImageProduct, PriceProduct, QuantityProduct};
+            listObjectProduct.push(objectproduct);
+        });
+        var trueObject = JSON.stringify(listObjectProduct);
+        return trueObject;
+    };
+    $('#BtnPayment').click(function () {
+        $('#Payment').val(true);
+        $('#LineItems').val(getTolistObjects());
+        $('#Formordercreate').submit();
+    });
+    $('#BtnPaymentlatter').click(function () {
+        $('#Payment').val(false);
+        $('#LineItems').val(getTolistObjects());
+        $('#Formordercreate').submit();
+    });
+</script>
+<style>
+    li.itemProduct {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #e8e8e8;
+    }
+
+    li.itemCustormer {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #e8e8e8;
+    }
+    li.liIsappendedd{
+        width:100%;
+        height:70px;
+        padding-top:10px;
+        padding-bottom:10px;    
+    }
+    a.btn_deletecus {
+    float: right;
+}
+</style>

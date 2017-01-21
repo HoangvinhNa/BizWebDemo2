@@ -1,0 +1,15 @@
+﻿.btnsort {
+    height: 50px;
+    border-bottom: 1px solid #e8e8e8;
+    border-top: 1px solid #e8e8e8;
+  margin-top:5px;
+    
+}
+.btnsort button{
+    float:right;
+    margin-top:7px;
+}
+.btnsort .dropdown-menu {
+    /* float: right; */
+    margin-left: 695px;
+}

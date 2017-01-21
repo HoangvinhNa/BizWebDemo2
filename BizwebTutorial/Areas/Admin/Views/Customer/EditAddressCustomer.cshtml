@@ -1,0 +1,62 @@
+﻿@model Models.EF.Customer
+
+@using (Html.BeginForm("EditAddressCustomer", "Customer", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="modal fade" id="ModalEditAddress">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Sửa địa chỉ</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="panel-body">
+                        <div class="form-group col-lg-6" style="padding-left:0px;">
+                            @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label strong" })
+                            @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control", @id = "FirstName", @placeholder = "Nhập Họ" })
+                        </div>
+                        <div class="form-group col-lg-6" style="padding-right:0px;">
+                            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label strong" })
+                            @Html.TextBoxFor(model => model.Name, new { @class = "form-control", @id = "Name", @placeholder = "Nhập Tên" })
+                        </div>
+                        <div class="form-group col-lg-6" style="padding-left:0px;">
+                            @Html.LabelFor(model => model.Company, htmlAttributes: new { @class = "control-label strong" })
+                            @Html.TextBoxFor(model => model.Company, new { @class = "form-control", @id = "Company", @placeholder = "Nhập Tên Công Ty" })
+                        </div>
+                        <div class="form-group col-lg-6" style="padding-right:0px;">
+                            @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label strong" })
+                            @Html.TextBoxFor(model => model.Phone, new { @class = "form-control", @id = "Phone", @placeholder = "Nhập Số Điện Thoại" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label strong" })
+                            @Html.TextBoxFor(model => model.Address, new { @class = "form-control",@id= "Address", @placeholder = "Nhập Địa Chỉ" })
+                        </div>
+                        <div class="form-group col-lg-6" style="padding-left:0px;">
+                            @Html.LabelFor(model => model.Country, htmlAttributes: new { @class = "control-label strong" })
+                            @Html.TextBoxFor(model => model.Country, new { @class = "form-control", @id = "Country", @placeholder = "Nhập Thành Phố" })
+                        </div>
+                        <div class="form-group col-lg-6" style="padding-right:0px;">
+                            @Html.LabelFor(model => model.PostalCode, htmlAttributes: new { @class = "control-label strong" })
+                            @Html.TextBoxFor(model => model.PostalCode, new { @class = "form-control", @id = "PostalCode", @placeholder = "Nhập Mã Zip" })
+                        </div>
+
+                        <div class="form-group col-lg-6" style="padding-left:0px;">
+                            @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label strong" })
+                            @Html.TextBoxFor(model => model.City, new { @class = "form-control", @id = "City", @placeholder = "Nhập Thành Phố" })
+                        </div>
+                        <div class="form-group col-lg-6" style="padding-right:0px;">
+                            @Html.LabelFor(model => model.Township, htmlAttributes: new { @class = "control-label strong" })
+                            @Html.TextBoxFor(model => model.Township, new { @class = "form-control", @id = "Township", @placeholder = "Nhập Quận/Huyện" })
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-default btn-primary" id="submitAddress" value="Lưu ">
+                        <input type="button" class="btn btn-default" value="Hủy" data-dismiss="modal">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

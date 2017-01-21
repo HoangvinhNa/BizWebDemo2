@@ -1,0 +1,67 @@
+﻿@model BizwebTutorial.Models.CategoryViewModel
+@{
+    ViewBag.Title = "Index";
+}
+<head>
+    <title>@Model.MetaTittle</title>
+    <meta name="description" content="@Model.MetaDiscription">
+</head>
+<link href="/Assets/FrontEndCss/CategoryStyle.css" rel="stylesheet" />
+<link href="~/Assets/FrontEndCss/HoverCat.css" rel="stylesheet" />
+<div class="row">
+    <div class="col-md-9 col-sm-12 col-xs-12">
+        <div class="box_product_index txt_left">
+            <h2><span>@Model.Name</span></h2>
+            @foreach (var item in Model.ListProducts)
+            {
+                <div class="item_select col-md-4 col-sm-4 col-xs-12 col-lg-4 item_mar">
+                    <div class="product_img">
+                        <div class="icon_flat">
+                        </div>
+                        <a href="/san-pham/@item.ProductAlias">
+                            <img alt="@item.ProductName" class="img-responsive" src="@Url.Content(item.ProductImage)">
+                        </a>
+                    </div>
+                    <div class="product_title">
+                        <h3><a href="/san-pham/@item.ProductAlias">@item.ProductName</a></h3>
+                    </div>
+                    <div class="product_price">
+                        <span class="price_new">@item.Productprice ₫</span>
+                    </div>
+                    <div class="area_btn"  data-id="@item.ProductId" data-image="@Url.Content(item.ProductImage)" data-name="@item.ProductName" data-price="@item.Productprice">
+                        @{
+                            Html.RenderAction("AddCart", "ShopingCart");
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-12 col-xs-12">
+        <div class="online_support block">
+            <div class="title_box">
+                <h2>Hỗ trợ trực tuyến</h2>
+            </div>
+            <div class="block-content">
+                <div class="sp_1">
+                    <p>Tư vấn bán hàng 1</p>
+                    <p>Mr. Vinh: <span>0942306832</span></p>
+                </div>
+                <div class="sp_2">
+                    <p>Tư vấn bán hàng 2</p>
+                    <p>Mr. Vinh: <span>(+84) 942306832</span></p>
+                </div>
+                <div class="sp_mail">
+                    <p>Email liên hệ</p>
+                    <p>Hoangthevinhna@gmail.com</p>
+                </div>
+            </div>
+        </div>
+        <div class="banner_col_right row block display_ipad">
+            <a class="col-md-12 col-sm-6 col-xs-12" href="#"><img src="~/ImageHome/layer-5.jpg" alt="Bizmart.net" title=""></a>
+        </div>
+    </div>
+</div>
+<script>
+    
+</script>

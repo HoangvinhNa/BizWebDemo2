@@ -1,0 +1,18 @@
+﻿@model Models.EF.Product
+@{
+    ViewBag.Title = "Delete";
+}
+
+
+@using (Html.BeginForm("Delete", "Product", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <h4>If you Wanna to Delete ,Try Click "Delete" Button.</h4>
+    <div class="form-group">
+        <input type="submit" value="Yes" class="btn btn-default" style="color:#fff;background:#428bca; float:left;width:70px;" />
+        <a href="/Admin/Category/Index">
+            <input class="btn btn-default" value="No" style="color:#fff;background:#428bca; float:left; width:70px;">
+        </a>
+    </div>
+}

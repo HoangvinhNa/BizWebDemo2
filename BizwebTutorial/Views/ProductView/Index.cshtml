@@ -1,0 +1,102 @@
+﻿@model PagedList.IPagedList<Models.ProductModelFix.ProductListTbModel>
+@using PagedList.Mvc;
+<link href="~/Assets/FrontEndCss/CategoryStyle.css" rel="stylesheet" />
+<link href="~/Assets/FrontEndCss/HoverCat.css" rel="stylesheet" />
+<link href="~/Assets/FrontEndCss/productstylesheet.css" rel="stylesheet" />
+<div class="row">
+    <div class="col-md-9 col-sm-12 col-xs-12">
+        <div class="box_product_index txt_left">
+            <h2><span>Tất Cả Sản Phẩm</span></h2>
+            <div class="dropdown btnsort col-md-12 col-sm-12 col-xs-12">
+                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                    Sắp Xếp
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a href="/tat-ca-san-pham?sortname=AZ">A→Z</a></li>
+                    <li><a href="/tat-ca-san-pham?sortname=ZA">Z→A</a></li>
+                    <li><a href="/tat-ca-san-pham?sortname=priceUp">Giá Tăng Dần</a></li>
+                    <li><a href="/tat-ca-san-pham?sortname=priceDown">Giá Giảm Dần</a></li>
+                    <li><a href="/tat-ca-san-pham?sortname=IdUp">Hàng Mới Nhất</a></li>
+                    <li><a href="/tat-ca-san-pham?sortname=IdDown">Hàng Cũ Nhất</a></li>
+                </ul>
+            </div>
+
+            @foreach (var item in Model)
+            {
+                <div class="item_select col-md-4 col-sm-4 col-xs-12 col-lg-4 item_mar">
+                    <div class="product_img">
+                        <div class="icon_flat">
+                        </div>
+                        <a href="/san-pham/@item.Alias">
+                            <img alt="@item.Name" src="@Url.Content(item.Image)">
+                        </a>
+                    </div>
+                    <div class="product_title">
+                        <h3><a href="/san-pham/@item.Alias">@item.Name</a></h3>
+                    </div>
+                    <div class="product_price">
+                        <span class="price_new">@item.Price ₫</span>
+                    </div>
+                    <div class="area_btn" data-id="@item.Id" data-image="@Url.Content(item.Image)" data-name="@item.Name" data-price="@item.Price">
+                        @{
+                            Html.RenderAction("AddCart", "ShopingCart");
+                        }
+                    </div>
+                </div>
+                            }
+        </div>
+        <div class="row text-center">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+
+                @Html.PagedListPager(Model, page => Url.Action("Index",
+                     new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }), new PagedListRenderOptions
+                     {
+                         DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+                         DisplayLinkToLastPage = PagedListDisplayMode.Never,
+                         DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+                         DisplayLinkToNextPage = PagedListDisplayMode.Always,
+                         MaximumPageNumbersToDisplay = 4
+                     })
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 col-sm-12 col-xs-12">
+        <div class="online_support block">
+            <div class="title_box">
+                <h2>Hỗ trợ trực tuyến</h2>
+            </div>
+            <div class="block-content">
+                <div class="sp_1">
+                    <p>Tư vấn bán hàng 1</p>
+                    <p>Mr. Vinh: <span>0942306832</span></p>
+                </div>
+                <div class="sp_2">
+                    <p>Tư vấn bán hàng 2</p>
+                    <p>Mr. Vinh: <span>(+84) 942306832</span></p>
+                </div>
+                <div class="sp_mail">
+                    <p>Email liên hệ</p>
+                    <p>Hoangthevinhna@gmail.com</p>
+                </div>
+            </div>
+        </div>
+        <div class="banner_col_right row block display_ipad">
+            <a class="col-md-12 col-sm-6 col-xs-12" href="#"><img src="~/ImageHome/layer-5.jpg" alt="Bizmart.net" title=""></a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .pagination-container {
+        text-align: center;
+    }
+    .pagination>.active>a{
+     background-color: #e24d85;
+    border-color: #e24d85;
+    }
+    .pagination>a{
+        color:#808080;
+    }
+</style>

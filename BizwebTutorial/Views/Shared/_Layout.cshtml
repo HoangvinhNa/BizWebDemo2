@@ -1,0 +1,244 @@
+﻿
+@using Newtonsoft.Json;
+@using BizwebTutorial.Models;
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+    <link href="/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="/Content/HomeSite.css" rel="stylesheet" />
+    <link href="/Assets/dist/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="/Assets/Swiper-3.4.1/dist/css/swiper.min.css" rel="stylesheet" />
+    <script src="/Assets/Swiper-3.4.1/dist/js/swiper.min.js"></script>
+    <script src="/Assets/Swiper-3.4.1/dist/js/swiper.jquery.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <link href="~/Assets/FrontEndCss/Responsive.css" rel="stylesheet" />
+    <link href="~/Assets/FrontEndCss/SlideMenuCss.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="padding_alltop">
+        <header>
+            <div class="top_header">
+                <div class="container">
+                    <div class="row">
+                        <div class="hidden-lg hidden-md col-sm-12 col-xs-12">
+                            <div id="mySidenav" class="sidenav">
+                                <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+                                <div class="myBizweb">
+                                    <img src="~/ImageHome/logo_footer.png" style="max-width:100%;" />
+                                    <div class="loginContent">
+                                        <ul>
+                                            <li><a href="/dang-nhap"><i class="fa fa-user" style="color:#e24d85"></i> Đăng Nhập</a></li>
+                                            <li><a href="/dang-ki"><i class="fa fa-users"style="color:#e24d85"></i> Đăng Kí</a></li> 
+                                        </ul>
+                                    </div>
+                                    <div class="MenuMain">
+                                        <a href="http://appdemo.dev/">Trang Chủ</a>
+                                        <a href="/tat-ca-san-pham">Sản Phẩm</a>
+                                        <a href="/gioi-thieu">Giới Thiệu</a>
+                                        <a href="/lien-he">Liên Hệ</a>
+                                        <a class="accordion">Danh Mục <i class="fa fa-sort-desc" style="float:right"></i></a>
+                                        <div class="abcd" style="display:none;">
+                                            @{
+                                                Html.RenderAction("CategoryView", "CategoryView");
+                                            }
+                                           <script>
+                                               $('.accordion').click(function () {
+                                                   $('.abcd').toggle('slow');
+                                               });
+                                           </script>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a onclick="openNav()" style="float:left;font-size:25px;color:#e24d85"><i class="fa fa-bars"></i></a>
+                            <script>
+                                function openNav() {
+                                    document.getElementById("mySidenav").style.width = "250px";
+                                    document.getElementById("main").style.marginLeft = "250px";
+                                    document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+                                }
+                                function closeNav() {
+                                    document.getElementById("mySidenav").style.width = "0";
+                                    document.getElementById("main").style.marginLeft = "0";
+                                    document.body.style.backgroundColor = "white";
+                                }
+                            </script>
+
+                            <a style="float:right;font-size:25px;color:#e24d85"><i class="fa fa-shopping-cart"></i></a>
+                        </div>
+                        <div class="logo_pc col-md-3 col-sm-12 col-xs-12" style="text-align:center;">
+                            <button class="menushow" style="display:none"><i class="fa fa-bars"></i></button>
+                            <a href="http://appdemo.dev/">
+                                <img style="max-width:100%;" alt="Bizmart.net" src="~/ImageHome/logo.png" />
+                            </a>
+                        </div>
+                        <div class="col-md-6 col-sm-12 hidden-xs">
+                            <div class="form_search_pc">
+                                @using (Html.BeginForm("Index", "ProductView", FormMethod.Get))
+                                {
+                                    @Html.TextBox("SearchString", ViewBag.CurentSearch as string, new { @class = "input-search-pc form-control", @placeholder = "Tìm kiếm...", @maxlength = "70" })
+                                    <button style="border: none;" type="submit" class="btn-search-pc"> <span class="fa fa-search"></span> </button>
+                                }
+                            </div>
+                        </div>
+                        <div class="box_account col-md-2 hidden-sm hidden-xs">
+                            @{
+                                HttpCookie CusCookie = Request.Cookies.Get("CUSTOMER_COOKIE");
+                            }
+                            @if (CusCookie == null)
+                            {
+                                <a href="/dang-nhap">
+                                    <img alt="Bizmart.net" src="~/ImageHome/login.png" /> <span>Đăng nhập<br> Tài khoản  &amp;  Đơn hàng<br></span>
+                                </a>
+                            }
+                            else
+                            {
+                                var valueCuscookie = Server.UrlDecode(CusCookie.Value);
+                                var CusViewModel = JsonConvert.DeserializeObject<CustomerLoginModel>(valueCuscookie);
+                                var modelLoading = new CustomerLoginModel()
+                                {
+                                    ID = CusViewModel.ID,
+                                    Email = CusViewModel.Email,
+                                    Name = CusViewModel.Name,
+                                    Address = CusViewModel.Address
+                                };
+                                <a href="/khach-hang/@modelLoading.ID">
+                                    <img alt="Bizmart.net" src="~/ImageHome/login.png" /> <span>Tài khoản  &amp;  Đơn hàng <br></span>
+                                </a>
+                                @Html.ActionLink("Thoát", "Logout", "CustomerLogin")
+                            }
+                        </div>
+
+                        <div class="box_cart col-md-1 hidden-sm hidden-xs">
+                            <a href="/gio-hang">
+                                <img alt="Bizmart.net" src="~/ImageHome/cart.png" /> <span>Giỏ hàng</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="nav_main_menu col-md-12 hidden-sm hidden-xs">
+                <div class="container">
+                    <div class="row">
+
+                        <div class="col-md-3 ">
+                            <div class="btn_menu_cate dropdown">
+                                <p>
+                                    <i class="fa fa-bars"></i> DANH MỤC SẢN PHẨM
+                                </p>
+                                <div class="dropdown-content catshow">
+                                    @{
+                                        Html.RenderAction("CategoryView", "CategoryView");
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="main_menu col-md-6 ">
+                            <ul>
+                                <li><a href="http://appdemo.dev/">Trang Chủ</a></li>
+                                <li><a href="/tat-ca-san-pham">Sản Phẩm</a></li>
+                                <li><a href="/gioi-thieu">Giới Thiệu</a></li>
+                                <li><a href="/lien-he">Liên Hệ</a></li>
+                            </ul>
+                        </div>
+                        <div class="hotline col-md-3">
+                            <img alt="Bizmart.net" src="~/ImageHome/mobile.png"> <span>Hotline:(04) 6674 2332 (8:00 T2 - CN)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <content>
+            <div class="container Contentpage">
+                @RenderBody()
+            </div>
+        </content>
+        <hr />
+        <footer class="footer_page">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <h2 style="margin-top: 13px;">
+                            <a href="//bizmart-theme.bizwebvietnam.net">
+                                <img alt="Bizmart.net" src="~/ImageHome/logo_footer.png" width="165">
+                            </a>
+                        </h2>
+                        <ul>
+                            <li><p style="color:#b5b5b5"><span class="glyphicon glyphicon-map-marker"></span>Tầng 4, Tòa nhà Hanoi Group<br>Số 442 Đội Cấn, Cống Vị, Ba Đình, Hà Nội</p></li>
+                            <li><p style="color:#b5b5b5"><span class="glyphicon glyphicon-earphone"></span> (04) 6674 2332 - <span class="glyphicon glyphicon-phone-alt"></span> &nbsp; (04) 3786 8904 </p></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-2 col-sm-6 col-xs-12">
+                        <h2>Về chúng tôi</h2>
+                        <ul>
+
+                            <li><a href="/">Trang chủ</a></li>
+
+                            <li><a href="/">Giới thiệu</a></li>
+
+                            <li><a href="/">Sản phẩm</a></li>
+
+                            <li><a href="/">Liên hệ</a></li>
+
+                        </ul>
+                    </div>
+                    <div class="col-md-2 col-sm-6 col-xs-12">
+                        <h2>Chính sách</h2>
+                        <ul>
+
+                            <li><a href="/chinh-sach">Chính sách đổi trả</a></li>
+
+                            <li><a href="/chinh-sach">Chính sách bảo mật</a></li>
+
+                            <li><a href="/chinh-sach">Chính sách mua hàng</a></li>
+
+                            <li><a href="/chinh-sach">Chính sách vận chuyển</a></li>
+
+                        </ul>
+                    </div>
+                    <div class="col-md-2 col-sm-6 col-xs-12">
+                        <h2>Điều khoản</h2>
+                        <ul>
+
+                            <li><a href="/">Tìm kiếm</a></li>
+
+                            <li><a href="/">Qui định chung</a></li>
+
+                            <li><a href="/">Tin tức mới nhất</a></li>
+
+                            <li><a href="/">Tư vấn mua hàng</a></li>
+
+                        </ul>
+                    </div>
+                    <div class="col-md-2 col-sm-6 col-xs-12">
+                        <h2>Hướng dẫn</h2>
+                        <ul>
+
+                            <li><a href="">Hướng dẫn đặt hàng</a></li>
+
+                            <li><a href="">Hướng dẫn thanh toán</a></li>
+
+                            <li><a href="/">Qui định thanh toán</a></li>
+
+                            <li><a href="/">Điều khoản sử dụng</a></li>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div class="container">
+                <div class="bizweb-copyright col-xs-12">
+                    <p>© Bản quyền thuộc về Bizmark Theme | Cung cấp bởi <a href="https://www.bizweb.vn/?utm_source=site-khach-hang&amp;utm_campaign=referral_bizweb&amp;utm_medium=footer&amp;utm_content=cung-cap-boi-bizweb" target="blank">Bizweb</a></p>
+                </div>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
+<style>
+
+</style>

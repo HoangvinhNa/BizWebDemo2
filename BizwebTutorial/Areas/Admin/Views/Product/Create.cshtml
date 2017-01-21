@@ -1,0 +1,439 @@
+﻿@model Models.ViewModel.ProductModel
+@{
+    ViewBag.Title = "Create";
+}
+<style>
+    
+
+    .itemCategory {
+        list-style: none;
+    }
+
+    .list-Category li {
+        list-style: none;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #c8c8c8;
+    }
+
+        .list-Category li a {
+            text-decoration: none;
+            color: #808080;
+        }
+
+    .buttonimageupload {
+        width: 100%;
+        height: 20px;
+    }
+
+    li {
+        list-style: none;
+    }
+
+    .validation-summary-errors ul {
+        padding-left: 0px;
+    }
+
+   ul#dropdown_menu_inner_2 {
+    padding-left: 0px;
+}
+    .itemCategory.selected .Liselectedcontent:before {
+        content: "";
+    }
+    li.itemCategory{
+        padding-left: 10px;
+    }
+
+    
+</style>
+@using (Html.BeginForm("Create", "Product", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <header class="navbar-fixed-top" style="margin-left:240px;">
+        <nav class="navbar navbar-default navbar-static-top no-margin" role="navigation" style="min-height:60px;">
+
+            <div class="col-md-9 topheaderad">
+                <h4>
+                    <i class="fa fa-lg fa-fw fa-tag"></i>Sản phẩm/Thêm Mới
+                </h4>
+            </div>
+            <div class="col-md-3 topheaderad">
+                <div class="group_button submitab">
+                    <input type="submit" class="btn btn-default" value="Lưu" />
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container-fluid-md">
+        <div class="row">
+            <div class="col-md-4 col-lg-3">
+                <h4>Thông tin sản phẩm</h4>
+                <p class="text-muted">Cung cấp thông tin về tên, mô tả loại sản phẩm và nhà sản xuất để phân loại sản phẩm này.</p>
+            </div>
+            <div class="col-md-8 col-lg-9">
+                <div class="panel panel-default panel-light">
+                    <div class="panel-body">
+                        @Html.ValidationSummary("", new { @class = "text-danger" })
+                        <div class="form-group">
+                            <label class="control-label cm-strong"><strong>Tên sản phẩm*</strong></label>
+                            @Html.TextBoxFor(model => model.Name, new { @class = "form-control", @placeholder = "Nhập Tên Sản Phẩm" })
+                            @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label cm-strong"><strong>Mô tả</strong></label>
+                            @Html.TextAreaFor(model => model.Descripstion, new { @class = "form-control ckeditor", @style = "height:300px;", @placeholder = "Mô tả chi tiết sản phẩm" })
+                            <a class="ShowShortDes">Mô tả ngắn</a>
+                        </div>
+
+                        <div class="form-group shortsed" style="display:none;">
+                            <label class="control-label cm-strong"><strong>Mô tả Ngắn</strong></label>
+                            @Html.TextAreaFor(model => model.ShortDescription, new { @class = "form-control ckeditor", @placeholder = "Mô tả Ngắn sản phẩm" })
+                        </div>
+                        <div class="col-lg-6" style="z-index:5;padding-left:0px;">
+                            <div class="form-group">
+                                <label class="control-label cm-strong"><strong>Loại sản phẩm</strong></label>
+                                @Html.TextBoxFor(model => model.ProductType, new { @class = "form-control ", @placeholder = "Nhập Loại Sản Phẩm " })
+                            </div>
+                        </div>
+                        <div class="col-lg-6" style="z-index:5;padding-right:0px;">
+                            <div class="form-group">
+                                <label class="control-label cm-strong"><strong>Nhà sản xuất</strong></label>
+                                @Html.TextBoxFor(model => model.Vendor, new { @class = "form-control", @placeholder = "Nhà Cung Cấp" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-lg-3">
+                <h4>Danh mục</h4>
+                <p class="text-muted">Danh mục được sử dụng để nhóm sản phẩm với nhau.</p>
+                <div class="form-group">
+                    <a class="btn btn-white dropdown-search dropdown-toggle" data-toggle="dropdown" style="border-radius:4px">
+                        <div style="overflow: hidden;text-overflow: ellipsis;max-width:158px;display:inline-block;float:left;margin-right: 5px;">
+                            <span id="text_Product">Chọn Danh Mục</span>
+                        </div>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-fix dropdown-menu-search" role="menu">
+                        <div class="dropdown-search-header" id="dropdown_search_header_2">
+                            <input class="form-control" id="dropdown_search_input_2" placeholder="Tìm kiếm sản phẩm" type="text" />
+                        </div>
+                        <div class="dropdown-search-body" id="dropdown_search_body_2">
+                            <div class="dropdown-menu-result" id="dropdown_menu_result_2">
+                                @*Here Is MiniCategoryshow by Ajax*@
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-md-8 col-lg-9">
+                <div class="panel panel-default panel-light">
+                    <div class="panel-body">
+                        <div class="form-group">
+                            @Html.HiddenFor(model => model.CategoryIdsString)
+                            <ul class="list-Category"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-lg-3">
+                <h4>Ảnh</h4>
+                <p class="text-muted">Đăng ảnh cho sản phẩm</p>
+                <p class="text-muted">Lưu ý: Size mỗi file ảnh không được vượt quá 1 MB.</p>
+            </div>
+            <div class="col-md-8 col-lg-9">
+                <div class="panel panel-default panel-light">
+                    <div class="panel-body">
+                        <div class="buttonimageupload">
+                            <a class="addimage" style="float:right;">Thêm Ảnh</a>
+                            @*//<a class="showfilenow" style="float:right;">show file</a>*@
+                            <input type="file" name="files" id="files" multiple="multiple" style="display:none;" />
+                        </div>
+                        <div class="ClickImageApend row" id="Result">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-lg-3">
+                <h4>Quản lý kho và tùy chọn</h4>
+                <p class="text-muted">Bạn có thể cấu hình nhiều phiên bản cho sản phẩm này</p>
+            </div>
+            <div class="col-md-8 col-lg-9">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="col-lg-6" style="z-index:5;padding-left:0px;">
+                            <div class="form-group">
+                                <label class="control-label cm-strong"><strong>Giá hiện tại*</strong></label>
+                                @Html.TextBoxFor(model => model.Price, new { @class = "form-control", @type = "number", @placeholder = "Nhập Giá Sản Phẩm" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6" style="z-index:5;padding-right:0px;">
+                            <div class="form-group">
+                                <label class="control-label cm-strong"><strong>Giá cũ*</strong></label>
+                                @Html.TextBoxFor(model => model.OldPrice, new { @class = "form-control", @type = "number", @placeholder = "Nhập Giá Sản Phẩm" })
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="col-lg-6" style="z-index:5;padding-left:0px;">
+                            <div class="form-group">
+                                <label class="control-label cm-strong"><strong>Mã sản phẩm/Sku</strong></label>
+                                @Html.TextBoxFor(model => model.Sku, new { @class = "form-control", @value = "0", @placeholder = "Mã SKU" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6" style="z-index:5;padding-right:0px;">
+                            <div class="form-group">
+                                <label class="control-label cm-strong"><strong>Barcode/Mã vạch</strong></label>
+                                @Html.TextBoxFor(model => model.Barcode, new { @class = "form-control", @placeholder = "Mã BarCode" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-lg-3">
+                <h4>Tối ưu SEO</h4>
+                <p class="text-muted">Thiết lập tiêu đề trang, thẻ mô tả, đường dẫn. Những thông tin này xác định cách bài viết xuất hiện trên công cụ tìm kiếm.</p>
+            </div>
+            <div class="col-md-8 col-lg-9">
+                <div class="panel panel-default panel-light">
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label class="control-label cm-strong"><strong>Tiêu đề trang</strong></label>
+                            @Html.TextBoxFor(model => model.MetaTitle, new { @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label cm-strong"><strong>Thẻ mô tả</strong></label>
+                            @Html.TextAreaFor(model => model.MetaDescription, new { @class = "form-control", @style = "height:70px;" })
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label cm-strong"><strong>Đường dẫn/Alias</strong></label>
+                            @Html.TextBoxFor(model => model.Alias, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-lg-3">
+                <h4>Trạng thái</h4>
+                <p class="text-muted">Cho phép thiết lập thời gian sản phẩm được hiển thị.</p>
+            </div>
+            <div class="col-md-8 col-lg-9">
+                <div class="panel panel-default panel-light">
+                    <div class="panel-body">
+                        @Html.CheckBoxFor(model => model.IsVisible)
+                        <label class="control-label cm-strong"><strong>Hiển thị sản phẩm</strong></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group" style="padding-bottom:50px;">
+            <button class="btn btn-default btn-primary" style="float:right;margin-right:12px;" type="submit">Lưu Sản Phẩm</button>
+        </div>
+    </div>
+}
+<style>
+    .Deleteimageapend {
+        position: absolute;
+        margin-top: 13px;
+        margin-left: 168px;
+    }
+     .ClickImageApend {
+        margin-top: 30px;
+    }
+     .fa-trash-o{
+        font-size:20px;
+    }
+
+</style>
+<script>
+    $(document).ready(function () {
+        $('#dropdown_search_input_2').keyup(function () {
+            GetMiniCategory();
+        });
+    });
+    function GetMiniCategory(inputPage) {
+        var query = $("#dropdown_search_input_2").val();
+        if (!query || !$.trim(query)) {
+            query = "";
+        }
+        var page = parseInt(inputPage) || 1;
+        $.ajax({
+            type: "GET",
+            url: '/Admin/Product/MinicategoryIndex?searchstring=' + query + '&page=' + page,
+            contentType: "application/json",
+            success: function (data) {
+                $('#dropdown_menu_result_2').fadeTo(0, 0).html(data).fadeTo(200, 1);
+                InitDropDownSearch();
+                CheckSelletedCategoryid();
+                SellectCategory();
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                if (xhr.status == 404 || xhr.status == 204) {
+                    $('#dropdown_menu_result_2').empty();
+                    InitDropDownSearch();
+                }
+            }
+        });
+    };
+    function SellectCategory() {
+        $('#dropdown_menu_result_2  .itemCategory').click(function () {
+            var _itemliclass = $(this);
+            var id = _itemliclass.attr('data-categoryId');
+            var name = _itemliclass.attr('data-categoryName');
+            var image = _itemliclass.attr('data-categoryImage');
+            var IdcategoryMapstring = [];
+            if (_itemliclass.hasClass('selected') == false) {
+                _itemliclass.addClass('selected');
+                if (image != null) {
+                    var imageisfix = image.replace('~', '');
+                    var htmlhasimage = "<li data-category-id='" + id + "'>" + "<img src='" + imageisfix + "' width='40' height='40' /><a style='margin-left:30px;'>" + name + "</a></li>";
+                    $('.list-Category').append(htmlhasimage);
+                } else {
+                    var htmlnoimage = "<li data-category-id='" + id + "'>" + "<img src='/Upload/No_image.png' width='40' height='40' /><a style='margin-left:30px;'>" + name + "</a></li>";
+                    $('.list-Category').append(htmlnoimage);
+                }
+                IdcategoryMapstring = GetcategoryIdRightView();
+            } else {
+                _itemliclass.removeClass('selected');
+                $('.list-Category li[data-category-id="' + id + '"]').remove();
+                IdcategoryMapstring = GetcategoryIdRightView();
+                IdcategoryMapstring.splice();
+            }
+            $('#CategoryIdsString').val(IdcategoryMapstring.toString());
+            console.log($('#CategoryIdsString').val());
+        });
+    };
+    function InitDropDownSearch() {
+        if ($(".dropdown-menu-search").length) {
+            $(".dropdown-menu-search").each(function () {
+                if ($(this).find(".dropdown-search-header input").length) {
+                    $(this).find(".dropdown-search-header input").each(function () {
+                        $(this).click(function (e) {
+                            if (!e.isPropagationStopped()) {
+                                e.stopPropagation();
+                            }
+                        });
+                    });
+                }
+                if ($(this).find(".dropdown-btn-paging").length) {
+                    $(this).find(".dropdown-btn-paging").click(function (e) {
+                        if (!e.isPropagationStopped()) {
+                            e.stopPropagation();
+                        }
+                    });
+                }
+            });
+        }
+    };
+    function GetcategoryIdRightView() {
+        var CategoryidrightView = [];
+        $('.list-Category li').each(function () {
+            var _item = $(this);
+            var categoryidright = _item.attr('data-category-id');
+            CategoryidrightView.push(categoryidright);
+        });
+        return CategoryidrightView;//list id rightview (show category when add)
+    };
+    function GetCategoryIdleft() {
+        var CategoryidleftView = [];
+        $('.dropdown-menu-result .dropdown-menu-inner li').each(function () {
+            var _itemsellect = $(this);
+            var _categoryidsellect = _itemsellect.attr('data-categoryid')
+            CategoryidleftView.push(_categoryidsellect);
+        });
+        return CategoryidleftView;//list id left view(show partial view when click button dropdown)
+    };
+    function CheckSelletedCategoryid() {
+        var catidleft = GetCategoryIdleft();
+        var catidright = GetcategoryIdRightView();
+        for (var i = 0; i < catidright.length; i++) {
+            for (var j = 0; j < catidleft.length; j++) {
+                if (catidleft[j] == catidright[i]) {
+                    $('.itemCategory[data-categoryId="' + catidleft[j] + '"]').addClass('selected');
+                }
+            }
+        }
+    };
+</script>
+<script type="text/javascript">
+    $('.addmanyimage').click(function () {
+        $('#Inputfiles').click();
+    });
+    function Destruction(str) {
+        str = str.toLowerCase();
+        str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, 'a');
+        str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, 'e');
+        str = str.replace(/ì|í|ị|ỉ|ĩ/g, 'i');
+        str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, 'o');
+        str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, 'u');
+        str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, 'y');
+        str = str.replace(/đ/g, 'd');
+        str = str.split(' ').join('-');
+        return str;
+    };
+    $(document).ready(function () {
+        $('#Name').change(function () {
+            var c = $('#Name').val();
+            $('#MetaTitle').val(c);
+        });
+        $('#Name').change(function () {
+            var c = $('#Name').val();
+            var r = Destruction(c);
+            $('#Alias').val(r);
+        });
+    });
+    $('.addimage').click(function () {
+        $('#files').click();
+    });
+    window.onload = function () {
+        //Check File API support
+        if (window.File && window.FileList && window.FileReader) {
+            var filesInput = document.getElementById("files");
+            filesInput.addEventListener("change", function (event) {
+                var files = event.target.files; //FileList object
+                var output = document.getElementById("Result");
+                for (var i = 0; i < files.length; i++) {
+                    var file = files[i];
+                    //Only pics
+                    if (!file.type.match('image'))
+                        continue;
+                    var picReader = new FileReader();
+                    picReader.addEventListener("load", function (event) {
+                        var picFile = event.target;
+                        var div = document.createElement("div");
+                        div.className = 'col-md-4';
+                        div.innerHTML = "<a class='Deleteimageapend' id='" + picFile.name + "'>" + "<i class='fa fa-trash-o'></i>" + "</a>" + "<img class='thumbnail' src='" + picFile.result + "' width='200'  height='200' title='" + picFile.name + "' />";
+                        output.insertBefore(div, null);
+                    });
+                    picReader.readAsDataURL(file);
+                }
+            });
+        }
+        else {
+            console.log("Your browser does not support File API");
+        }
+    }
+    $('.showfilenow').click(function () { //show value of multiple files
+        var inp = document.getElementById('files');
+        for (var i = 0; i < inp.files.length; ++i) {
+            var name = inp.files.item(i).name;
+            console.log(name);
+        }
+    });
+
+</script>
+<script>
+    $('.ShowShortDes').click(function () {
+        $('.shortsed').show();
+    });
+</script>

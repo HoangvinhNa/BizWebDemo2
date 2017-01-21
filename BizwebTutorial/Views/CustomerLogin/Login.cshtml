@@ -1,0 +1,39 @@
+﻿@model BizwebTutorial.Models.CustomerLoginModel
+<link href="/Assets/FrontEndCss/CustomerStyle.css" rel="stylesheet" />
+<link href="~/Assets/FrontEndCss/HoverCat.css" rel="stylesheet" />
+@using (Html.BeginForm("Login", "CustomerLogin", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <div class="col-md-6 col-sm-6 col-xs-12">
+        <div class="log_rgt">
+            <h4>ĐĂNG NHẬP</h4>
+            <p>Nếu bạn có một tài khoản, xin vui lòng đăng nhập.</p>
+            @Html.ValidationSummary("", new { @class = "text-danger" })
+            <div class="form-group">
+               <label class="control-label"><strong> Nhập Email</strong></label>
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                <label class="control-label"><strong> Nhập Mật Khẩu</strong></label>
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+            </div>
+            <button type="submit" class="btn btn-defaut loginform" style="margin-top:20px;">ĐĂNG NHẬP</button>
+        </div>
+    </div>
+}
+<div class="col-md-6 col-sm-6 col-xs-12">
+    <div class="log_rgt">
+        <h4>KHÁCH HÀNG MỚI</h4>
+        <p>Đăng ký tài khoản để mua hàng nhanh hơn. Theo dõi đơn đặt hàng, vận chuyển. Cập nhật các tin tức sự kiện và các chương trình giảm giá của chúng tôi.</p>
+        <a href="/dang-ki">
+            <input type="button" class="btn btn-defaut" value="ĐĂNG KÍ" />
+        </a>
+    </div>
+</div>
+<style>
+    .form-group{
+        margin-bottom:20px;
+    }
+</style>

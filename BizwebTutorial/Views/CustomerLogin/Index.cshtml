@@ -1,0 +1,65 @@
+﻿@model Models.ViewModel.CustomerEditGetOrderModel
+<link href="~/Assets/FrontEndCss/HoverCat.css" rel="stylesheet" />
+<link href="/Assets/FrontEndCss/HomeStyle.css" rel="stylesheet" />
+<div class="row">
+<div class="col-md-9 col-sm-12 col-xs-12 text-center">
+    @if (Model.ListOrders.Count == 0)
+    {
+        <i class="fa fa-fw fa-suitcase" style="font-size:70px;margin:30px 0 0;"></i>
+        <h4 class="text-muted">Bạn chưa có đơn đặt hàng nào.</h4>
+    }
+    else
+    {
+        <table class="table table-condensed"  style="margin:30px 0 0;">
+            <thead>
+                <tr>
+                    <th><p>Đơn hàng</p></th>
+                    <th><p>Ngày Tạo</p></th>
+                    <th><p>Tổng Tiền</p></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.ListOrders)
+                {
+                    <tr>
+                        <td><p>#@item.IdOrder</p></td>
+                        <td><p>@item.CreateOn</p></td>
+                        <td><p>@item.TotalMoney ₫</p></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+   
+</div>
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="online_support block">
+            <div class="title_box">
+                <h2>Thông Tin Tài Khoản</h2>
+            </div>
+            <div class="block-content">
+                <h6>
+                    <i class="fa fa-lg fa-fw fa-credit-card"></i>Tên Khách Hàng: @Model.Name
+                </h6>
+                <h6>
+                    <i class="fa fa-lg fa-fw fa-credit-card"></i>Email: @Model.Email
+                </h6>
+                <h6>
+                    <i class="fa fa-lg fa-fw fa-credit-card"></i>Điện thoại: @Model.Phone
+                </h6>
+                <h6>
+                    <i class="fa fa-lg fa-fw fa-credit-card"></i>Thành Phố: @Model.City
+                </h6>
+                <h6>
+                    <i class="fa fa-lg fa-fw fa-credit-card"></i>Mật Khẩu: @Model.Password
+                </h6>
+            </div>
+        </div>
+    </div>
+    </div> 
+<style>
+    .table.table-condensed p{
+       font-size:15px;
+       float:left;
+    }
+</style>

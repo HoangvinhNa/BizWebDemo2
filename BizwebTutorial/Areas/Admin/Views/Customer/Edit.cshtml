@@ -1,0 +1,213 @@
+﻿@model Models.ViewModel.CustomerEditGetOrderModel
+@{
+    ViewBag.Title = "Edit";
+}
+@using (Html.BeginForm("Edit", "Customer", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <header class="navbar-fixed-top" style="margin-left:240px;">
+        <nav class="navbar navbar-default navbar-static-top no-margin" role="navigation" style="min-height:60px;">
+            <div class="col-md-9 topheaderad">
+                <h4>
+                    <i class="fa fa-lg fa-fw fa-users"></i> Khách Hàng <strong>/</strong> @Model.Name
+                </h4>
+            </div>
+            <div class="col-md-3 topheaderad">
+                <div class="group_button submitab">
+                    <a href="/Admin/Customer/Create" style="text-decoration:none;">
+                        <input type="button" class="btn btn-default" value="Thêm mới" />
+                    </a>
+                    <input type="submit" class="btn btn-default" value="Lưu" />
+                </div>
+            </div>
+
+        </nav>
+    </header>
+    <div class="container-fluid-md">
+        <div class="row">
+            <div class="col-sm-8">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <h3 class="panel-title no-margin-top margin-md-bottom">Đơn hàng</h3>
+                        <div class="col-sm-12 text-center fa-5x text-muted">
+                            @if (Model.ListOrders.Count == 0)
+                            {
+                                <i class="fa fa-fw fa-suitcase"></i>
+                                <h4 class="text-muted">Khách hàng này chưa có đơn đặt hàng nào.</h4>
+                            }
+                            else
+                            {
+                                <table class="table table-condensed">
+                                    <thead>
+                                        <tr>
+                                            <th><p>Đơn hàng</p></th>
+                                            <th><p>Ngày Tạo</p></th>
+                                            <th><p>Tổng Tiền</p></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.ListOrders)
+                                        {
+                                            <tr>
+                                                <td><p><a href="/Admin/Order/Edit/@item.IdOrder">#@item.IdOrder</a></p></td>
+                                                <td><p>@item.CreateOn</p></td>
+                                                <td><p>@item.TotalMoney ₫</p></td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <h3 class="panel-title no-margin-top margin-md-bottom">Thông tin khác</h3>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Note, htmlAttributes: new { @class = "control-label strong" })
+                                    @Html.TextAreaFor(model => model.Note, new { @class = "form-control ckeditor", @style = "height: 100px;" })
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Tag, htmlAttributes: new { @class = "control-label strong" })
+                                    @Html.TextAreaFor(model => model.Tag, new { @class = "form-control", @style = "height: 100px;" })
+                                </div>
+                            </div>
+                            <div class="col-md-12" style="padding-top:20px;">
+                                <input type="button" style="float:left;" value="Xóa Khách Hàng" id="Dlbuton" class="btn btn-default btn-danger pull-left " />
+                                <input class="btn btn-default btn-primary btn-save" style="float:right;" type="submit" value="Lưu Khách Hàng" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="panel panel-default panel-full">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-9">
+                                <h3 class="panel-title no-margin-top margin-md-bottom">Thông tin khách hàng</h3>
+                            </div>
+                            <div class="col-sm-3 text-right">
+                                <a class="EditInfoCus" href="@Url.Action("EditPrivateInfor",new { id = Model.Id })">Sửa</a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 margin-sm-bottom">
+                                <h6>
+                                    <i class="fa fa-lg fa-fw fa fa-envelope"></i> @Model.Email
+                                </h6>
+                                <h6>
+                                    <i class="fa fa-lg fa-fw fa-users"></i> @Model.FirstName @Model.Name
+                                </h6>
+                                @if (Model.Marketing == true)
+                                {
+                                    <h6>
+                                        <i class="fa fa-lg fa-fw fa-volume-up"></i> Khách hàng muốn được tiếp thị
+                                    </h6>
+                                }
+                                else
+                                {
+                                    <h6>
+                                        <i class="fa fa-lg fa-fw fa-volume-up"></i> Khách hàng không cần tiếp thị
+                                    </h6>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default panel-full">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-9">
+                                <h3 class="panel-title no-margin-top margin-md-bottom">Thông tin địa chỉ</h3>
+                            </div>
+                            <div class="col-sm-3 text-right">
+                                <a class="EditAddressCus" href="@Url.Action("EditAddressCustomer",new { id = Model.Id })">Sửa</a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 margin-sm-bottom">
+                                <h6>
+                                    <i class="fa fa-lg fa-fw fa-building-o"></i> @Model.Company
+                                </h6>
+                                <h6>
+                                    <i class="fa fa-lg fa-fw fa-phone"></i> @Model.Phone
+                                </h6>
+                                <h6>
+                                    <i class="fa fa-lg fa-fw fa-bullseye"></i> @Model.Address
+                                </h6>
+                                <h6>
+                                    <i class="fa fa-lg fa-fw fa-building"></i> @Model.City
+                                </h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="Modal-editInfo"></div>
+        <div class="Model-Address"></div>
+    </div>
+}
+<div class="modal fade" id="ModelCustormerDelete">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Xóa Khách Hàng</h4>
+            </div>
+            <div class="modal-body">
+                <h3>Bạn có chắc muốn xóa khách hàng : @Model.FirstName  @Model.Name ?</h3>
+                <h4>Thao tác không thể hoàn tác</h4>
+            </div>
+            <div class="modal-footer">
+                <div class="form-group">
+                    <a href="/Admin/Customer/Delete/@Model.Id" style="text-decoration:none;">
+                        <input type="button" class="btn btn-default btn-danger" value="Xóa">
+                    </a>
+                    <input type="button" class="btn btn-default" value="Hủy" data-dismiss="modal">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .table.table-condensed p {
+        font-size: 15px;
+        float: left;
+    }
+</style>
+<script>
+    $("#Dlbuton").click(function () {
+        $("#ModelCustormerDelete").modal();
+    });
+    $('.EditInfoCus').click(function (e) {
+        var a_hrefedit = $(this).attr('href');
+        e.preventDefault();
+        $.ajax({
+            url: a_hrefedit,
+            type: 'GET',
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                $('.Modal-editInfo').html(data);
+                $('.Modal-editInfo #InformationCustormer').modal('show');
+            }
+        });
+    });
+    $('.EditAddressCus').click(function (e) {
+        var a_hrefedit = $(this).attr('href');
+        e.preventDefault();
+        $.ajax({
+            url: a_hrefedit,
+            type: 'GET',
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                $('.Model-Address').html(data);
+                $('.Model-Address #ModalEditAddress').modal('show');
+            }
+        });
+    });
+</script>

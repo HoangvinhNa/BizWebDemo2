@@ -1,0 +1,155 @@
+﻿@model Models.ViewModel.CategoryModel
+@{
+    ViewBag.Title = "Create";
+}
+
+<link href="~/Assets/Admin/CreateCatStyle.css" rel="stylesheet" />
+@using (Html.BeginForm("Create", "Category", null, FormMethod.Post, new { enctype = "multipart/form-data"}))
+{
+    @Html.AntiForgeryToken()
+    <header class="navbar-fixed-top" style="margin-left:240px;">
+        <nav class="navbar navbar-default navbar-static-top no-margin" role="navigation" style="min-height:60px;">
+            <div class="col-md-9 topheaderad">
+                <h4>
+                    <i class="fa fa-lg fa-fw fa-tag"></i> Danh mục sản phẩm <strong>/</strong> Thêm Mới
+                </h4>
+            </div>
+            <div class="col-md-3 topheaderad">
+                <div class="group_button submitab">
+                   
+                    <input type="submit" class="btn btn-default" value="Lưu" />
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container-fluid-md">
+        <div class="row">
+            <div class="col-md-4 col-lg-3">
+                <h4>Nội dung danh mục</h4>
+                <p class="text-muted" id="abcd">Chọn ảnh đại diện.</p>
+                <div style="margin-bottom:20px;margin-top:20px;">
+                    <img id="output" style="display:none;" width="150" height="150" />
+                </div>
+                <div class="btn btn-default btn-primary">
+                    <a id="AddImage">Upload Ảnh</a>
+                </div>
+                <input class="inputfile" type="file" name="file" id="inputUpload" style="display:none;" onchange="loadFile(event)" />
+            </div>
+            <div class="col-md-8 col-lg-9">
+                <div class="panel panel-default panel-light">
+                    <div class="panel-body">
+                        @Html.ValidationSummary("", new { @class = "text-danger" })
+                        <div class="form-group">
+                            <label class="control-label cm-strong"><strong>Tên Danh Mục</strong></label>
+                            @Html.TextBoxFor(model => model.Name, new { @class = "form-control", @placeholder = "Nhập tên danh mục" })
+                            @Html.ValidationMessageFor(m => m.Name,"",new { @class = "text-danger"})
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label cm-strong"><strong>Mô tả Danh Mục</strong></label>
+                            @Html.TextAreaFor(model => model.Description, new { @class = "form-control ckeditor", @placeholder = "Nhập mô tả" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-lg-3">
+                <h4>Tối ưu SEO</h4>
+                <p class="text-muted">Thiết lập thẻ tiêu đề, thẻ mô tả, đường dẫn. Những thông tin này xác định cách danh mục xuất hiện trên công cụ tìm kiếm.</p>
+            </div>
+            <div class="col-md-8 col-lg-9">
+                <div class="panel panel-default panel-light">
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label class="control-label cm-strong"><strong>Tiêu Đề Trang</strong></label>
+                            @Html.TextBoxFor(model => model.MetaTittle, new { @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label cm-strong"><strong>Thẻ Mô Tả</strong></label>
+                            @Html.TextAreaFor(model => model.MetaDiscription, new { @class = "form-control", @placeholder = "Nhập miêu tả" })
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label cm-strong"><strong>Đường Dẫn/Alias</strong></label>
+                            @Html.TextBoxFor(model => model.Alias, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-lg-3">
+                <h4>Trạng thái</h4>
+                <p class="text-muted">Cho phép hiển thị sản phẩm</p>
+            </div>
+            <div class="col-md-8 col-lg-9">
+                <div class="panel panel-default panel-light">
+                    <div class="panel-body">
+                        @Html.CheckBoxFor(m => m.IsVisible)
+                        <label class="control-label"><strong>Hiển thị danh mục sản phẩm</strong></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group" style="padding-bottom:50px;padding-top:50px;">
+            
+                <input type="submit" value="Lưu Danh Mục" class="btn btn-default btn-primary" style="float:right;" />
+            
+        </div>
+    </div>
+}
+<style>
+    #AddImage {
+        float: left;
+        text-decoration: none;
+        color: #fff;
+    }
+
+    #abcd {
+        margin-top: 10px;
+    }
+     li{
+        list-style:none;
+    }
+    .validation-summary-errors ul{
+       padding-left:0px;
+    }
+</style>
+<script>
+    $('#AddImage').click(function () {
+        $('.inputfile').click();
+        $('#output').show();
+    });
+    function Destruction(str) {
+        str = str.toLowerCase();
+        str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, 'a');
+        str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, 'e');
+        str = str.replace(/ì|í|ị|ỉ|ĩ/g, 'i');
+        str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, 'o');
+        str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, 'u');
+        str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, 'y');
+        str = str.replace(/đ/g, 'd');
+        str = str.split(' ').join('-');
+        return str;
+    }
+    $(document).ready(function () {
+        $('#Name').change(function () {
+            var c = $('#Name').val();
+            $('#MetaTittle').val(c);
+        });
+        $('#Name').change(function () {
+            var c = $('#Name').val();
+            var r = Destruction(c);
+            $('#Alias').val(r);
+        });
+    });
+</script>
+<script>
+    var loadFile = function (event) {
+        var reader = new FileReader();
+        reader.onload = function () {
+            var output = document.getElementById('output');
+            output.src = reader.result;
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    };
+</script>

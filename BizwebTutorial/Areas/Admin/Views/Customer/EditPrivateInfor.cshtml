@@ -1,0 +1,42 @@
+﻿@model Models.EF.Customer
+
+@using (Html.BeginForm("EditPrivateInfor","Customer",null, FormMethod.Post,  new { enctype = "multipart/form-data" })) {
+    @Html.AntiForgeryToken()
+<div class="modal fade" id="InformationCustormer">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Sửa địa chỉ</h4>
+            </div>
+            <div class="modal-body">
+                <div class="panel-body">
+                    <div class="form-group col-lg-6" style="padding-left:0px;">
+                        @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label strong" })
+                        @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control", @id = "", @placeholder = "Nhập Họ" })
+                    </div>
+                    <div class="form-group col-lg-6" style="padding-right:0px;">
+                        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label strong" })
+                        @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+                        @Html.TextBoxFor(model => model.Name, new { @class = "form-control", @id = "", @placeholder = "Nhập Họ" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label strong" })
+                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                        @Html.TextBoxFor(model => model.Email, new { @class = "form-control", @id = "", @placeholder = "Nhập Họ" })
+                    </div>
+                    <div class="form-group">
+                        @Html.CheckBoxFor(model => model.Marketing)
+                        <label class="control-label strong">Khách hàng muốn được tiếp thị</label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="form-group">
+                    <input type="submit" class="btn btn-default btn-primary" value="Lưu ">
+                    <input type="button" class="btn btn-default" value="Hủy" data-dismiss="modal">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+}

@@ -1,0 +1,20 @@
+﻿
+   
+    .itemproduct {
+        list-style:none;
+    }
+    .textarea#Description {
+    height:300px;
+    }
+    .list-product li{
+        list-style: none;
+        padding-top:10px;
+        padding-bottom:10px;
+        border-bottom:1px solid #c8c8c8;
+    }
+    .list-product li a{
+        text-decoration:none;
+        color:#808080;
+      
+    }
+    

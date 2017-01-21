@@ -1,0 +1,87 @@
+﻿@model BizwebTutorial.Models.OrderModelView
+@{
+
+}
+<link href="~/Assets/FrontEndCss/HoverCat.css" rel="stylesheet" />
+
+@using (Html.BeginForm("Create", "OrderView", FormMethod.Post, new { enctype = "multipart/form-data", @id = "OrderCusform" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <div class="col-md-6 col-sm-12 customer-info">
+            @Html.ValidationSummary( "", new { @class = "text-danger" })
+            <div class="form-group">
+                <label class="control-label">Email</label>
+               
+                @Html.TextBoxFor(m => m.EmailCustomer, new { @class = "form-control" })
+              
+            </div>
+            <div class="form-group">
+                <label class="control-label">Tên Khách Hàng</label>
+               
+                @Html.TextBoxFor(m => m.NameCustomer, new { @class = "form-control" })
+               
+            </div>
+            <div class="form-group">
+                <label class="control-label">Thành Phố</label>
+                
+                @Html.TextBoxFor(m => m.AddressCustomer, new { @class = "form-control" })
+               
+            </div>
+            <div class="form-group">
+                <label class="control-label">Số Điện Thoại</label>
+                
+                @Html.TextBoxFor(m => m.PhoneCustomer, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-12 customer-info">
+            <div class="form-group">
+                <table class="table table-striped" width="100%">
+                    <thead>
+                        <tr>
+                            <td>Ảnh</td>
+                            <td>Tên</td>
+                            <td>Giá</td>
+                            <td>Số Lượng</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.ListItemProduct)
+                        {
+                            <tr>
+                                <td><img src="@item.ImageProduct" width="50" height="50" /></td>
+                                <td>@item.NameProduct</td>
+                                <td>@item.PriceProduct</td>
+                                <td>@item.QuantityProduct</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            @{
+                decimal Totalmoney = 0;
+                foreach (var item in Model.ListItemProduct)
+                {
+                    decimal linetotal = item.QuantityProduct * item.PriceProduct;
+                    Totalmoney += linetotal;
+                }
+            }
+            <div class="form-group">
+                <label class="totalmoneyorder" data-money="@Totalmoney">Tổng Thanh Toán: @Totalmoney ₫</label>
+                @Html.HiddenFor(m => m.Payment)
+                @Html.HiddenFor(m => m.LineItemString)
+                @Html.HiddenFor(m => m.CustomerId)
+                @Html.HiddenFor(m => m.TotalMoney)
+            </div>
+            <button type="button" id="submitform" class="btn btn-default btn-primary">Đặt Hàng</button>
+        </div>
+    </div>
+ }
+
+<script>
+    $('#submitform').click(function () {
+        var mondolar =parseFloat($('.totalmoneyorder').attr('data-money'));
+        $('#TotalMoney').val(mondolar);
+        $('#OrderCusform').submit();
+    });
+</script>

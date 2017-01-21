@@ -1,0 +1,13 @@
+﻿
+@model BizwebTutorial.Models.CartViewModel
+
+@using (Html.BeginForm("AddDetail", "ProductView", FormMethod.Post, new { enctype = "multipart/form-data", @id = "DetialsForm" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.Id)
+    @Html.HiddenFor(m => m.ImageProduct)
+    @Html.HiddenFor(m => m.NameProduct)
+    @Html.HiddenFor(m => m.PriceProduct)
+    @Html.HiddenFor(m => m.QuantityProduct)
+    <button type="button" class="button btn-cart add_to_cart btn btn-default btn_theme" title="Cho vào giỏ hàng"><span>Mua hàng</span></button>
+}

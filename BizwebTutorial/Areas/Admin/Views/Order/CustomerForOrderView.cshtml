@@ -1,0 +1,30 @@
+﻿@model PagedList.IPagedList<Models.EF.Customer>
+@using PagedList.Mvc;
+@if (Model == null)
+{
+    <h2>No Customer</h2>
+}
+else
+{
+    <ul class="clear-ul js-autocomplete-suggestions next-list next-list--compact next-list--toggles">
+        @for (var i = 0; i < Model.Count; i++)
+        {
+            var customer = Model[i];
+            <li class="itemCustormer" data-CusId="@customer.Id" data-phone="@customer.Phone" data-CusName="@customer.Name" data-CusEmail="@customer.Email" data-CusAddress="@customer.Address">
+
+                <div class="next-grid__cell" style="line-height: 1; padding-left: 0;">
+                    <p style="margin:0">
+                        @customer.FirstName@customer.Name <br />
+                        @customer.Email
+                    </p>
+                </div>
+            </li>
+        }
+    </ul>
+
+}
+
+
+
+
+

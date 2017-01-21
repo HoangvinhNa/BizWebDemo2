@@ -1,0 +1,33 @@
+﻿@model PagedList.IPagedList<Models.ProductModelFix.ProductListTbModel>
+@using PagedList.Mvc;
+@if (Model == null)
+{
+    <h2>không có sản phẩm nào</h2>
+}
+else
+{
+    <ul class="dropdown-menu-inner" id="dropdown_menu_inner_2" style="width:220px;">
+
+        @for (var i = 0; i < Model.Count; i++)
+        {
+            var product = Model[i];
+            <li class="itemproduct" product-id="@Model[i].Id" data-productId="@product.Id" data-productName="@product.Name" data-productImage="@Url.Content(product.Image)">
+                <table style="width:100%;">
+                    <tbody>
+                        <tr>
+                            <td class="Liselectedcontent" style="width:20%;"></td>
+                            <td style="width:80%;">
+                                <span>@Model[i].Name</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </li>
+        }
+     
+    </ul>
+}
+
+
+
+

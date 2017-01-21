@@ -1,0 +1,101 @@
+﻿@{
+    ViewBag.Title = "Trang Chủ" ;
+}
+<link href="/Assets/FrontEndCss/HomeStyle.css" rel="stylesheet" />
+
+<div class="row">
+    <div class="col-md-3 hidden-sm hidden-xs">
+        <div class="menu_cate_list">
+            @{
+                Html.RenderAction("CategoryView", "CategoryView");
+            }
+        </div>
+    </div>
+    <div class="slidershow col-md-9 col-sm-12 col-xs-12">
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide"><img src="~/ImageHome/img_coverage1.jpg" class="img-responsive" /></div>
+                <div class="swiper-slide"><img src="~/ImageHome/img_coverage2.jpg" class="img-responsive" /></div>
+                <div class="swiper-slide"><img src="~/ImageHome/img_coverage3.jpg" class="img-responsive" /></div>
+            </div>
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-9 col-sm-12 col-xs-12">
+        <div class="box_product_index">
+            <h2><span>THỜI TRANG</span></h2>
+            <div class="grid_item" style="text-align:center;">
+                @{
+                    Html.RenderAction("ListProductByType", "ProductView");
+                }
+            </div>
+        </div>
+        <div class="banner_index">
+            <a href="#"><img alt="Bizmart.net" class="img-responsive" src="~/ImageHome/banner_img1.jpg"></a>
+        </div>
+        <div class="box_product_index">
+            <h2><span>Phụ Kiện-Thiết Bị Số</span></h2>
+            <div class="grid_item" style="text-align:center;">
+                @{
+                    Html.RenderAction("ListProductMachine", "ProductView");
+                }
+            </div>
+        </div>
+        <div class="banner_index">
+            <a href="#"><img alt="Bizmart.net" class="img-responsive" src="~/ImageHome/banner_img2.jpg"></a>
+        </div>
+        <div class="box_product_index">
+            <h2><span>Đồ Chơi-Quà Tặng</span></h2>
+            <div class="grid_item" style="text-align:center;">
+                @{
+                    Html.RenderAction("ListProductGift", "ProductView");
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="online_support block">
+            <div class="title_box">
+                <h2>Hỗ trợ trực tuyến</h2>
+            </div>
+            <div class="block-content">
+                <div class="sp_1">
+                    <p>Tư vấn bán hàng 1</p>
+                    <p>Mr. Vinh: <span>0942306832</span></p>
+                </div>
+                <div class="sp_2">
+                    <p>Tư vấn bán hàng 2</p>
+                    <p>Mr. Vinh: <span>(+84) 942306832</span></p>
+                </div>
+                <div class="sp_mail">
+                    <p>Email liên hệ</p>
+                    <p>Hoangthevinhna@gmail.com</p>
+                </div>
+            </div>
+        </div>
+        <div class="banner_col_right row block display_ipad">
+            <a class="col-md-12 col-sm-6 col-xs-12" href="#"><img src="~/ImageHome/layer-5.jpg"  alt="Bizmart.net" title=""></a>
+        </div>
+    </div>
+    </div>
+    <script>
+    var swiper = new Swiper('.swiper-container', {
+        pagination: '.swiper-pagination',
+        paginationClickable: true,
+        nextButton: '.swiper-button-next',
+        prevButton: '.swiper-button-prev',
+        spaceBetween: 30,
+        centeredSlides: true,
+        autoplay: 2500,
+        autoplayDisableOnInteraction: false
+    });
+    </script>
+    <style>
+        .dropdown-content.catshow {
+            display: none;
+        }
+    </style>

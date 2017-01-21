@@ -1,0 +1,115 @@
+﻿@model PagedList.IPagedList<Models.EF.Order>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Index";
+}
+<header class="navbar-fixed-top" style="margin-left:240px;">
+    <nav class="navbar navbar-default navbar-static-top no-margin" role="navigation" style="min-height:60px;">
+        <div class="col-md-9 topheaderad">
+            <h4>
+                <i class="fa fa-lg fa-fw fa-credit-card"></i> Đơn Hàng
+            </h4>
+        </div>
+        <div class="col-md-3 topheaderad">
+            <div class="group_button submitab">
+                <a href="/Admin/Order/Create" style="text-decoration:none;">
+                    <input type="button" class="btn btn-default" value="Thêm mới" />
+                </a>
+            </div>
+        </div>
+    </nav>
+</header>
+<div class="container-fluid-md">
+    <div class="tab-content">
+        <div class="Serbox" style="width:100%; height:100px;">
+            @using (Html.BeginForm("Index", "Order", FormMethod.Get))
+            {
+                <div style="padding-top:40px;">
+                    <div class="col-md-2 seratad">
+                        <a style="margin-left:90px;">
+                            <input class="btn btn-default btn-primary" id="SearchCus" type="submit" value="Tìm Kiếm">
+                        </a>
+                    </div>
+                    <div class="col-md-8 seratad">
+                        @Html.TextBox("SearchString", ViewBag.CurentSearch as string, new { @class = "form-control", placeholder = "Nhập từ khóa tìm kiếm ..." })
+                    </div>
+                </div>
+            }
+        </div>
+        <hr />
+        <table id="table-basic" class="table table-hover vert-align">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.ActionLink("Đơn Hàng", "Index", new { sortOrder = ViewBag.NameSortParm })
+                    </th>
+                    <th>
+                        <label class="control-label"><strong>Ngày Đặt</strong></label>
+                    </th>
+                    <th>
+                        <label class="control-label"><strong>Thanh Toán</strong></label>
+                    </th>
+                    <th>
+                        <label class="control-label"><strong>Chuyển Hàng</strong></label>
+                    </th>
+                    <th>
+                        <label class="control-label"><strong>Khách Hàng</strong></label>
+                    </th>
+                    <th>
+                        <label class="control-label"><strong>Tổng Tiền</strong></label>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+            {
+                    <tr>
+                        <td>
+                            @Html.ActionLink("#" + item.Id, "Edit", new { id = item.Id })
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => item.CreatedOn)
+                        </td>
+                        <td>
+                            @if (item.Payment == true)
+                            {
+                                <label class="control-label">Đã Thanh Toán</label>
+                            }
+                            else
+                            {
+                                <label class="control-label" style="color:#ff0000;">Thanh Toán Sau</label>
+                            }
+                        </td>
+                        <td>
+                            @if (item.Transport == true)
+                            {
+                                <label class="control-label">Đã Chuyển</label>
+                            }
+                            else
+                            {
+                                <label class="control-label" style="color:#ff0000;">Chưa Chuyển</label>
+                            }
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => item.CustomerName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => item.TotalMoney) ₫
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <p class="pagenumber">Hiển thị kết quả từ @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)-@Model.Count trên tổng @Model.Count</p>
+    </div>
+</div>
+
+
+
+<script>
+    $(document).ready(function () {
+        $('#SearchString').change(function () {
+            $('#SearchCus').click();
+        });
+    });
+</script>

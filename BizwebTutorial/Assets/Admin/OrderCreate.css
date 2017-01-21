@@ -1,0 +1,30 @@
+﻿.itemProduct {
+    list-style: none;
+}
+
+#Product_append {
+    list-style: none;
+}
+
+.liAll.col-lg-2.quantity {
+    padding-top: 3px;
+}
+.col-lg-1.totalLineItem {
+    padding-top: 10px;
+}
+.col-lg-1.deletelinitem {
+    padding-top: 10px;
+}
+
+.col-lg-12.liAll a{
+    text-decoration:none;
+}
+li.custormerappding {
+    list-style: none!important;
+}
+li.itemCustormer {
+    list-style: none!important;
+}
+a.btn_deletecus.glyphicon.glyphicon-minus {
+    float: right;
+}

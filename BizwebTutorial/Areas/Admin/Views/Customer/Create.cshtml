@@ -1,0 +1,167 @@
+﻿@model Models.ViewModel.CustomerModel
+@{
+    ViewBag.Title = "Create";
+}
+<style>
+     li{
+        list-style:none;
+    }
+    .validation-summary-errors ul{
+       padding-left:0px;
+    }
+</style>
+@using (Html.BeginForm("Create", "Customer", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <header class="navbar-fixed-top" style="margin-left:240px;">
+        <nav class="navbar navbar-default navbar-static-top no-margin" role="navigation" style="min-height:60px;">
+            <div class="col-md-9 topheaderad">
+                <h4>
+                    <i class="fa fa-lg fa-fw fa-users"></i> Khách Hàng <strong>/</strong>Thêm Mới
+                </h4>
+            </div>
+            <div class="col-md-3 topheaderad">
+                <div class="group_button submitab">
+                 
+                    <input type="submit" class="btn btn-default" value="Lưu" />
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container-fluid-md">
+
+        <div class="row">
+            <div class="col-md-4 col-lg-3">
+                <h4>Thông tin khách hàng</h4>
+                <p class="text-muted">Các thông tin cơ bản về khách hàng.</p>
+            </div>
+            <div class="col-md-8 col-lg-9">
+                <div class="panel panel-default panel-light">
+                    <div class="panel-body">
+                        @Html.ValidationSummary("", new { @class = "text-danger" })
+                        <div class="form-group col-lg-6" style="padding-left:0px;">
+                            <label class="control-label cm-strong"><strong>Họ</strong></label>
+                            @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control", @id = "firstname1", @placeholder = "Nhập Họ" })
+                            
+                        </div>
+                        <div class="form-group col-lg-6" style="padding-right:0px;">
+                            <label class="control-label cm-strong"><strong>Tên</strong></label>
+                            @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+                            @Html.TextBoxFor(model => model.Name, new { @class = "form-control", @id = "name1", @placeholder = "Nhập Tên" })
+                           
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label cm-strong"><strong>Email</strong></label>
+                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                            @Html.TextBoxFor(model => model.Email, new { @class = "form-control", @placeholder = "Nhập Email" })
+                        
+                        </div>
+                        <div class="form-group">
+                            @Html.CheckBoxFor(model => model.Marketing)
+                            <label class="control-label strong">Khách hàng muốn được tiếp thị</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-lg-3">
+                <h4>Địa chỉ của khách hàng</h4>
+                <p class="text-muted">Địa chỉ chính của khách hàng, có thể sử dụng để liên hệ hoặc chuyển hàng cho khách hàng</p>
+            </div>
+            <div class="col-md-8 col-lg-9">
+                <div class="panel panel-default panel-light">
+                    <div class="panel-body">
+                        <div class="form-group col-lg-6" style="padding-left:0px;">
+                            <label class="control-label cm-strong"><strong>Họ</strong></label>
+                            @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control", @id = "firstname2" })
+                        </div>
+                        <div class="form-group col-lg-6" style="padding-right:0px;">
+                            <label class="control-label cm-strong"><strong>Tên</strong></label>
+                            @Html.TextBoxFor(model => model.Name, new { @class = "form-control", @id = "name2" })
+                        </div>
+                        <div class="form-group col-lg-6" style="padding-left:0px;">
+                            <label class="control-label cm-strong"><strong>Công Ty</strong></label>
+                            @Html.TextBoxFor(model => model.Company, new { @class = "form-control", @placeholder = "Nhập Công Ty" })
+                        </div>
+                        <div class="form-group col-lg-6" style="padding-right:0px;">
+                            <label class="control-label cm-strong"><strong>Số Điện Thoại</strong></label>
+                            @Html.TextBoxFor(model => model.Phone, new { @class = "form-control", @placeholder = "Nhập Số Điện Thoại" })
+                        </div>
+                        <div class="form-group ">
+                            <label class="control-label cm-strong"><strong>Địa Chỉ</strong></label>
+                            @Html.TextBoxFor(model => model.Address, new { @class = "form-control", @placeholder = "Nhập Địa Chỉ" })
+                        </div>
+                        <div class="form-group col-lg-6" style="padding-left:0px;">
+                            <label class="control-label cm-strong"><strong>Quốc Gia</strong></label>
+                            @Html.TextBoxFor(model => model.Country, new { @class = "form-control" })
+                        </div>
+                        <div class="form-group col-lg-6" style="padding-right:0px;">
+                            <label class="control-label cm-strong"><strong> Postal/Zip Code</strong></label>
+                            @Html.TextBoxFor(model => model.PostalCode, new { @class = "form-control", @placeholder = "Nhập Postal/Zip Code" })
+                        </div>
+                        <div class="form-group col-lg-6" style="padding-left:0px;">
+                            <label class="control-label cm-strong"><strong>Thành Phố</strong></label>
+                            @Html.TextBoxFor(model => model.City, new { @class = "form-control" })
+                        </div>
+                        <div class="form-group col-lg-6" style="padding-right:0px;">
+                            <label class="control-label cm-strong"><strong>Quận/Huyện</strong></label>
+                            @Html.TextBoxFor(model => model.Township, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-lg-3">
+                <h4>Ghi chú</h4>
+                <p class="text-muted">Ghi chú thêm về khách hàng</p>
+            </div>
+            <div class="col-md-8 col-lg-9">
+                <div class="panel panel-default panel-light">
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label class="control-label cm-strong"><strong>Ghi Chú</strong></label>
+                            @Html.TextAreaFor(model => model.Note, new { @class = "form-control ckeditor", @placeholder = "Nhập ghi chú về khách hàng" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-lg-3">
+                <h4>Tags</h4>
+                <p class="text-muted">Tag có thể được dùng để phân loại khách hàng.</p>
+            </div>
+            <div class="col-md-8 col-lg-9">
+                <div class="panel panel-default panel-light">
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label class="control-label cm-strong"><strong>Tags</strong></label>
+                            @Html.TextBoxFor(model => model.Tag, new { @class = "form-control", @placeholder = "Nhập Tags" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group" style="padding-bottom:50px;">
+         
+                <input type="submit" value="Lưu Khách Hàng" class="btn btn-default btn-primary" style="float:right;" />
+           
+        </div>
+
+    </div>
+}
+<script>
+    $(document).ready(function () {
+        $('#name1').change(function () {
+            $('#name2').val($('#name1').val());
+        });
+        $('#firstname1').change(function () {
+            $('#firstname2').val($('#firstname1').val());
+        });
+        $("#firstname2").prop("disabled", true);
+        $("#name2").prop("disabled", true);
+    });
+</script>

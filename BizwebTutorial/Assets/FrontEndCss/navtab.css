@@ -1,0 +1,42 @@
+﻿
+
+.mar_bt_15 {
+    text-align: left;
+   
+}
+
+    .mar_bt_15 label {
+        color: #857e7e;
+    }
+
+.ImageDetails img {
+    width: 70%;
+    height: 70%;
+    max-width: 100%;
+    text-align: center;
+}
+
+.DetailProduct {
+    margin-top: 100px;
+}
+
+input.form-control.inputnumberquan {
+    width: 100px;
+}
+
+.dataproduct .add_to_cart {
+    background: #e24d85;
+    color: #fff;
+}
+
+.nav .nav-tabs {
+    border-bottom: none;
+    padding-bottom: 0px;
+}
+
+.nav-tabs a, .nav-tabs a:hover, .nav-tabs a:focus {
+    outline: 0;
+}
+div#personal {
+    margin-left: 20px;
+}

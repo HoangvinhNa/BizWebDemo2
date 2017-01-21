@@ -1,0 +1,113 @@
+﻿.col-md-9.col-sm-12.col-xs-12 {
+    margin-top: 30px;
+}
+.col-md-4.col-sm-4.col-xs-12.col-lg-4.item_mar {
+    text-align: center;
+    margin-top:20px;
+}
+.block {
+    margin: 30px 0 0;
+    float: right;
+    width: 100%;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border: 1px solid #e8e8e8;
+    height: auto;
+}
+.product_title h3 a {
+    word-break: break-word;
+    font-size: 16px;
+    color: #000;
+    font-family: 'Roboto', sans-serif;
+    line-height: 18px;
+    font-weight: bolder;
+}
+.box_product_index h2 span{
+    border-bottom: 3px solid #e24d85;
+    padding-bottom: 14px;
+    font-size: 22px;
+    font-family: 'Roboto', sans-serif;
+    text-transform: uppercase;
+}
+.button.btn-cart.add_to_cart{
+    background:#e24d85;
+    color:#fff;
+    margin-top:10px;
+}
+.title_box h2 {
+    background: #ebebeb;
+    text-transform: uppercase;
+    font-size: 17px;
+    padding: 14px 15px 10px 15px;
+    margin-bottom: 0px;
+    font-family: 'Roboto', sans-serif;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    margin-top: 0px;
+    font-weight: bolder;
+}
+
+.title_box {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border: 1px solid #e8e8e8;
+    position: relative;
+}
+
+.sp_1, .sp_2 {
+    background: url(/ImageHome/support-online.png) left center no-repeat;
+}
+
+.sp_mail {
+    background: url(/ImageHome/email.png) left center no-repeat;
+}
+.banner_col_right img {
+    width: 100%;
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+.online_support .block-content div p:first-child {
+    color: #AFAFAF;
+    margin: 0;
+    font-size: 14px;
+    line-height: 24px;
+}
+
+.online_support .block-content div {
+    padding-left: 30px;
+    margin-left: 15px;
+    font-size: 13px;
+}
+.mouse_hover{
+    display:none;
+    border-bottom-left-radius:5px;
+    border-bottom-right-radius:5px;
+    border-bottom:1px solid #e8e8e8;
+    border-left:1px solid #e8e8e8;
+    border-right:1px solid #e8e8e8;
+    width:270px;
+    height:auto;
+}
+.mouse_hover ul{
+    list-style:none;
+    padding-left:0px;
+}
+.mouse_hover ul li{
+    margin-left:30px;
+    padding-top:20px;
+}
+.mouse_hover ul a{
+    text-decoration:none;
+    color:#808080;
+}
+.mouse_hover ul li a :hover{
+    color:#ff0000;
+}
+.btn_menu_cate:hover .mouse_hover{
+display:block;
+}
+.product_img img{
+    width:240px;
+    height:240px;
+    max-width:100%;
+}

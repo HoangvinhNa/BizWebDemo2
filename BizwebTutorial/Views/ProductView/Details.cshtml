@@ -1,0 +1,111 @@
+﻿@model Models.ProductModelFix.ProductDeatailModel
+<head>
+    <title>@Model.MetaTitle</title>
+    <meta name="description" content="@Model.MetaDescription">
+</head>
+<link href="~/Assets/FrontEndCss/HoverCat.css" rel="stylesheet" />
+<link href="~/Assets/FrontEndCss/navtab.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Assets/lightslider-master/dist/js/lightslider.js"></script>
+<link href="~/Assets/lightslider-master/dist/css/lightslider.css" rel="stylesheet" />
+
+<div class="row" style="padding-top:70px;">
+    <div class="col-md-6 col-sm-6 col-xs-12 ">
+        <ul id="imageGallery">
+            @foreach (var item in Model.ListImage)
+            {
+                <li data-thumb="@Url.Content(item.PathImage)" data-src="@Url.Content(item.PathImage)">
+                    <img src="@Url.Content(item.PathImage)" />
+                </li>
+            }  
+        </ul>
+    </div>
+    <div class="col-md-6 col-sm-6 col-xs-12 mar_bt_15">
+        <h3><strong>@Model.Name</strong></h3>
+        <label class="control-label cm-strong">Mã Số Sản Phẩm : @Model.Sku/@Model.Barcode</label>
+        <h3 style="color:#e24d85;font-size:30px;">@Model.Price ₫<label class="control-label cm-strong" style="margin-left:15px;font-size:15px;"><STRIKE>@Model.OldPrice ₫</STRIKE></label></h3>
+        <label class="control-label cm-strong">Số Lượng:</label>
+        <input class="form-control inputnumberquan" type="number" value="1" />
+        <hr />
+        <label class="control-label cm-strong">Sơ Lược Về Sản Phẩm :</label>
+        <p class="metadescript">@Html.Raw(HttpUtility.HtmlDecode(Model.ShortDescription))</p>
+        <hr />
+        <div class="dataproduct" data-id="@Model.Id" data-name="@Model.Name" data-quantity="" data-price="@Model.Price" data-image="@Url.Content(Model.ListImage.FirstOrDefault().PathImage)">
+            @{
+                Html.RenderAction("AddDetail", "ProductView");
+            }
+        </div>
+    </div>
+    <div class="col-md-12 col-sm-12 col-xs-12" style="margin-top:10px;">
+        <div class="panel panel-default" >
+            <div id="Tabs" role="tabpanel">
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="active">
+                        <a href="#personal" aria-controls="personal" role="tab" data-toggle="tab" aria-expanded="true">
+                            Mô Tả
+                        </a>
+                    </li>
+                    <li class=""><a href="#employment" aria-controls="employment" role="tab" data-toggle="tab" aria-expanded="false">Tags</a></li>
+                </ul>
+                <!-- Tab panes -->
+                <div class="tab-content" style="padding-top: 20px">
+                    <div role="tabpanel" class="tab-pane active" id="personal">
+                       @Html.Raw(HttpUtility.HtmlDecode(Model.Descripstion))
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('.dataproduct .add_to_cart').click(function () {
+        var btnclick = $(this);
+        var dataAttr = btnclick.parent().parent();
+        var id = dataAttr.attr('data-id');
+        var name = dataAttr.attr('data-name');
+        var price = dataAttr.attr('data-price');
+        var image = dataAttr.attr('data-image');
+        var quantity = $('.inputnumberquan').val();
+        $('#Id').val(id);
+        $('#ImageProduct').val(image);
+        $('#NameProduct').val(name);
+        $('#PriceProduct').val(price);
+        $('#QuantityProduct').val(quantity);
+        $('#DetialsForm').submit();
+    });
+  
+</script>
+<script>
+    $(document).ready(function () {
+        $('#imageGallery').lightSlider({
+            gallery: true,
+            item: 1,
+            loop: true,
+            thumbItem: 8,
+            slideMargin: 0,
+            enableDrag: false,
+            currentPagerPosition: 'left',
+            onSliderLoad: function (el) {
+                el.lightGallery({
+                    selector: '#imageGallery .lslide'
+                });
+            }
+        });
+    });
+</script>
+<style>
+    .ImageDetails {
+        position: relative;
+        height: 100%;
+    }
+    .lslide.active{
+        text-align:center;
+    }
+    div.lSAction a.lSPrev {
+   background-image:url(../../Assets/FrontEndCss/slsPre.png);
+}
+    div.lSAction a.lSNext {
+    background-image:url(../../Assets/FrontEndCss/slsNext.png);
+}
+</style>

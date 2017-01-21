@@ -1,0 +1,68 @@
+﻿@model List<BizwebTutorial.Models.CartViewModel>
+<link href="~/Assets/FrontEndCss/HoverCat.css" rel="stylesheet" />
+@{ 
+    HttpCookie CookieCart = Request.Cookies.Get("CartCookie");
+}
+
+    @using (Html.BeginForm("DisplayCart", "ShopingCart",FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+    <div class="box_cart">
+        <table class="table-bordered">
+            <thead>
+                <tr>
+                    <th width="14%">Ảnh</th>
+                    <th>Tên</th>
+                    <th width="15%">Giá</th>
+                    <th width="10%">Số Lượng</th>
+                    <th width="14%">Xóa Sản Phẩm</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.Count(); i++)
+                {
+                    <tr class="product_table" data-id="@Model[i].Id">
+                        <td><img src="@Model[i].ImageProduct" width="100" height="100" /></td>
+                        <td>@Model[i].NameProduct</td>
+                        <td>@Model[i].PriceProduct ₫</td>
+                        <td>
+                            @Html.HiddenFor(model => Model[i].Id)
+                            @Html.HiddenFor(model => Model[i].ImageProduct)
+                            @Html.HiddenFor(model => Model[i].NameProduct)
+                            @Html.HiddenFor(model => Model[i].PriceProduct)
+                            @Html.TextBoxFor(model => Model[i].QuantityProduct, new { @type = "number", @class = "form-control" })
+                        </td>
+                        <td><a href="/ShopingCart/Deleteproduct/@Model[i].Id">Xóa</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="group_button" data-cookie="@CookieCart" style="shape-margin:20px;">
+        <a href="/dat-hang" style="float:right;">
+            <input type="button" id="paymentbtn" class="btn btn-default" value="Thanh Toán" style="background:#e24d85;color:#ffffff" />
+        </a>
+        <button id="getmodalshow" style="display:none;"></button>
+        <a href="/tat-ca-san-pham" style="float:left;">
+            <input type="button" class="btn btn-default" value="Tiếp Tục Mua hàng" style="background:#e24d85;color:#ffffff" />
+        </a>
+          <a href="/ShopingCart/DeleteAll" style="float:left; margin-left:10px;">
+            <input type="button" class="btn btn-default" value="Xóa" style="background:#e24d85;color:#ffffff" />
+          </a>
+        <a style="float:left; margin-left:10px;">
+            <input type="submit" class="btn btn-default" value="Cập Nhật Giỏ Hàng" style="background:#e24d85;color:#ffffff" />
+        </a>
+    </div>
+    }
+<style>
+    .table-bordered {
+        margin-top: 100px;
+        width:100%;
+    }
+    .box_cart tr th {
+        text-align: center;
+    }
+</style>
+<script>
+
+</script>

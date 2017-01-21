@@ -1,0 +1,130 @@
+﻿
+<!doctype html>
+<html>
+<!--<![endif]-->
+<head>
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Veneto Admin &middot; Dashboard </title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="~/Assets/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Assets/dist/css/veneto-admin.min.css">
+    <link rel="stylesheet" href="~/Assets/demo/css/demo.css" />
+    <link rel="stylesheet" href="~/Assets/dist/assets/font-awesome/css/font-awesome.css">
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <link href="~/Assets/Admin/Header.css" rel="stylesheet" />
+    <script src="~/Assets/FrontEndCss/ckeditor_4.6.1_basic/ckeditor/ckeditor.js"></script>
+    <style>
+        aside.sidebar.sidebar-default {
+            height: 662px;
+            position: fixed;
+        }
+
+        .dropdown.dropup.account-info {
+            padding-left: 20px;
+        }
+
+        .nav-user {
+            margin-top: 160px;
+        }
+        p.pagenumber {
+    padding-left: 17px;
+    color:#808080;
+}
+        p.itematribute {
+    padding-top: 16px;
+}
+    </style>
+</head>
+<body class="">
+    <div class="page-wrapper">
+        <aside class="sidebar sidebar-default">
+            <div class="Logomeheder">
+                <a class="navbar-logo hidden-xxs" href="/Admin/Dashboard">
+                    <span class="sc-hidden">
+                        <img src="~/Assets/Admin/image/bizweb-logo.png" title="Bizweb" style="width:125px;" />
+                    </span>
+                </a>
+                <a class="view-storefront hidden-xxs" href="http://appdemo.dev" target="_blank" title="Xem website của bạn" style="color:black;">
+                    <i class="glyphicon glyphicon-new-window sc-hidden"></i>
+                </a>
+            </div>
+
+            <nav>
+                <ul class="nav nav-pills nav-stacked">
+                    <li class="nav-dropdown active open">
+                        <a href="/Admin/Dashboard" title="Trang chủ">
+                            <i class="fa fa-lg fa-fw fa-home"></i> Trang chủ
+                        </a>
+                    </li>
+                    <li class="nav-dropdown">
+                        <a href="/Admin/Order" title="Đơn hàng">
+                            <i class="fa fa-lg fa-fw fa-credit-card"></i> Đơn hàng
+                        </a>
+                    </li>
+                    <li class="nav-dropdown">
+                        <a href="/Admin/Product" title="Sản phẩm">
+                            <i class="fa fa-lg fa-fw fa-tag"></i> Sản phẩm
+                        </a>
+                    </li>
+                    <li class="nav-dropdown">
+                        <a href="/Admin/Category" title="Danh mục sản phẩm">
+                            <i class="fa fa-lg fa-fw fa-tags"></i> Danh mục sản phẩm
+                        </a>
+                    </li>
+                    <li class="nav-dropdown">
+                        <a href="/Admin/Customer" title="Forms">
+                            <i class="fa fa-lg fa-fw fa-users"></i> Khách hàng
+                        </a>
+                    </li>
+                </ul>
+                <div class="Logoutbuton">
+                   
+                   <i class="fa fa-lg fa-fw fa-sign-out"></i>@Html.ActionLink("Thoát", "Logout", "User")
+                </div>
+            </nav>
+        </aside>
+        <div class="content_page">
+            @RenderBody()
+        </div>
+    </div>
+</body>
+</html>
+<style>
+    .Logomeheder {
+        margin-bottom: 10px;
+        margin-top: 10px;
+        margin-left: 24px;
+        border-right: 1px solid #e8e8e8;
+    }
+    .container-fluid-md{
+        padding-top:88px;
+    }
+    .content_page{
+        width:auto;
+        margin-left:240px;
+    }
+    a.view-storefront.hidden-xxs {
+        margin-left: 57px;
+        font-size: 16px;
+    }
+
+    .Logoutbuton {
+        margin-left: 20px;
+    }
+    .Logoutbuton a{
+        margin-left: 2px;
+    }
+</style>
+
+@*<li class="hidden-xs">
+        <form action="/Admin/Dashboard" method="get" novalidate="novalidate">
+            <div class="navbar-search">
+                <input type="text" class="form-control" name="query" placeholder="Tìm kiếm …">
+                <button type="submit" class="btn"><i class="fa fa-search"></i></button>
+            </div>
+        </form>
+    </li>*@

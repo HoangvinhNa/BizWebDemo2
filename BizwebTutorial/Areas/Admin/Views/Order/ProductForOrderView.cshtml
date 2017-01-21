@@ -1,0 +1,36 @@
+﻿@model PagedList.IPagedList<Models.ProductModelFix.ProductListTbModel>
+@using PagedList.Mvc;
+@if (Model == null)
+{
+    <h2>không có sản phẩm nào</h2>
+}
+else
+{
+    <ul class="clear-ul next-list--divided next-list--divided-half-padding clear-ul">
+        @for (var i = 0; i < Model.Count; i++)
+        {
+            var product = Model[i];
+            <li class="itemProduct" data-proId="@product.Id" data-proImage="@Url.Content(product.Image)" data-proPrice="@product.Price" data-proName="@product.Name">
+                @*<div class="next-grid next-grid--compact next-grid--no-outside-padding next-grid--vertically-centered">
+                    <div class="DynamicsImage">
+                        <h6>
+                            <img class="block s-none thumb-30" src="@Url.Content(product.Image)" width="50" height="50" />
+                            <a class="ten">@product.Name</a>
+                            <a class="gia">@product.Price đ</a>
+                        </h6>
+                    </div>
+                </div>*@
+                <table style="width:100%;">
+                    <tbody>
+                        <tr>
+                            <td style="width:20%;"><img class="block s-none thumb-30" src="@Url.Content(product.Image)" width="50" height="50" /></td>
+                            <td style="width:50%;text-align:center;"><a style="text-decoration:none;color:#808080">@product.Name</a></td>
+                            <td style="width:30%;text-align:center"><a style="text-decoration:none;color:#808080">@product.Price đ</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </li>
+        }
+    </ul>
+}
+

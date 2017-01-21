@@ -1,0 +1,222 @@
+﻿@model Models.ViewModel.OrderEditModel
+@{
+    ViewBag.Title = "Edit";
+}
+
+@using (Html.BeginForm("Edit", "Order", null, FormMethod.Post, new { enctype = "multipart/form-data", @id = "FormEditOrder" }))
+{
+    @Html.AntiForgeryToken()
+    <header class="navbar-fixed-top" style="margin-left:240px;">
+        <nav class="navbar navbar-default navbar-static-top no-margin" role="navigation" style="min-height:60px;">
+
+            <div class="col-md-9 topheaderad">
+                <h4>
+                    <i class="fa fa-lg fa-fw fa-credit-card"></i> Đơn Hàng <strong>/</strong> #@Model.Id
+                </h4>
+            </div>
+            <div class="col-md-3 topheaderad">
+                <div class="group_button submitab">
+                    <a href="/Admin/Order/Create" style="text-decoration:none;">
+                        <input type="button" class="btn btn-default" value="Thêm mới" />
+                    </a>
+                    <input type="submit" class="btn btn-default" value="Lưu" />
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container-fluid-md">
+        <div class="row">
+            <div class="col-sm-8">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <h3>Chi tiết đơn hàng</h3>
+                        <ul class="panel-body" id="UlItemproduct">
+                            @for (var i = 0; i < Model.Items.Count; i++)
+                            {
+                                var LineTotal = Model.Items[i].QuantityProduct * Model.Items[i].PriceProduct;
+                                <li data-product-id="@Model.Items[i].Id" data-total="@LineTotal">
+                                    <div class="allproductshow">
+                                        <div class="col-md-1 columofitem"><img src="@Model.Items[i].ImageProduct" width="40" height="40" /></div>
+                                        <div class="col-md-3 columofitem padingo">@Model.Items[i].NameProduct</div>
+                                        <div class="col-md-3 columofitem padingo">@Model.Items[i].PriceProduct ₫</div>
+                                        <div class="col-md-2 columofitem padingo">x @Model.Items[i].QuantityProduct</div>
+                                        <div class="col-md-3 columofitem padingo">@LineTotal ₫</div>
+                                    </div>
+                                </li>
+                            }
+                        </ul>
+                        @{
+                            decimal Total = 0;
+                            foreach (var item in Model.Items)
+                            {
+                                var LineTotal = item.QuantityProduct * item.PriceProduct;
+                                Total += LineTotal;
+                            }
+                        }
+                    </div>
+                    <div class="panel-body appendthanhtoan">
+                        @if (Model.Payment == true)
+                        {
+                            <h3 class="FetMoney" data-money="@Total">
+                        <i class="fa fa-lg fa-check-circle-o"></i>
+                        <a style="margin-left:36px;text-decoration:none;color:#808080">Khách hàng thanh toán : @Total ₫</a></h3>
+                            @Html.HiddenFor(m => m.TotalMoney)
+                            @Html.HiddenFor(m => m.Payment)
+                        }
+                        else
+                        {
+                            @Html.HiddenFor(m => m.TotalMoney)
+                            @Html.HiddenFor(m => m.Payment)
+                            <h3 class="FetMoney" data-money="@Total">
+                                <i class="fa fa-lg fa-fw fa-credit-card"></i> <a style="margin-left:36px;text-decoration:none;color:#808080">Khách hàng chưa thanh toán : @Total ₫</a>
+                                <input type="button" id="Paymentclick" value="Thanh Toán" class="btn btn-default btn-primary pull-right" />
+                            </h3>
+
+                        }
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group anhnhoemvanchuyen">
+                            @Html.HiddenFor(m => m.Transport)
+                            @if (Model.Transport == false)
+                            {
+                                <h3 class="Transportabcd">
+                                    <i class="fa fa-lg fa-fw fa-credit-card"></i> <a style="margin-left:36px;text-decoration:none;color:#808080">Chuyển hàng cho khách hàng</a>
+                                    <input type="button" id="Istranport" value="Chuyển Hàng" class="btn btn-default btn-primary pull-right" />
+                                </h3>
+
+                            }
+                            else
+                            {
+                                <h3>
+                                    <i class="fa fa-lg fa-check-circle-o"></i> <a style="margin-left:36px;text-decoration:none;color:#808080">Khách hàng đã nhận được hàng</a>
+                                </h3>
+                            }
+                        </div>
+                    </div>
+                
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="wrappable">
+                            <div class="wrappable__item">
+                                <div class="next-input-wrapper">
+                                    <label class="control-label">
+                                        <strong>Ghi chú</strong>
+                                    </label>
+                                    @Html.TextAreaFor(m => m.Note, new { @class = "form-control ckeditor", @placeholder = "Thêm ghi chú cho đơn hàng" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-top:20px;">
+                            <input type="button" id="Save" value="Lưu Đơn Hàng" class="btn btn-default btn-primary pull-right" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        @if (Model.CustomerId != 0)
+                        {
+                            <div class="row">
+                                <div class="col-sm-9">
+                                    <h3 class="panel-title no-margin-top margin-md-bottom">Thông tin khách hàng</h3>
+                                </div>
+                                <div class="col-sm-3 text-right">
+                                    <a class="EditInfoCus" href="/Admin/Customer/Edit/@Model.CustomerId">Xem</a>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="row">
+                                <div class="col-sm-9">
+                                    <h3 class="panel-title no-margin-top margin-md-bottom">Thông tin khách hàng</h3>
+                                </div>
+                            </div>
+                        }
+                        <div class="row">
+                            <div class="col-sm-12 margin-sm-bottom">
+                                <h6>
+                                    <i class="fa fa-lg fa-fw fa fa-envelope"></i> @Model.CustomerEmail
+                                </h6>
+                                <h6>
+                                    <i class="fa fa-lg fa-fw fa-users"></i> @Model.CustomerName
+                                </h6>
+                                <h6>
+                                    <i class="fa fa-lg fa-fw fa-phone"></i> @Model.CustomerPhone
+                                </h6>
+                                <h6>
+                                    <i class="fa fa-lg fa-fw fa-bullseye"></i> @Model.CustomerAdress
+                                </h6>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+                            }
+<style>
+    .panel-body li {
+        list-style: none;
+    }
+
+    .allproductshow {
+        width: 100%;
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
+    #UlItemproduct li {
+        width: 100%;
+        height: 50px;
+        margin-bottom: 20px;
+    }
+
+    #UlItemproduct {
+        width: 100%;
+    }
+
+    .columofitem {
+        padding-left: 0px;
+        padding-right: 0px;
+        text-align: center;
+    }
+
+    .padingo {
+        padding-top: 20px;
+    }
+
+    i.fa.fa-lg.fa-check-circle-o {
+        color: #01ff91;
+    }
+    h3{
+        font-size:20px;
+    }
+</style>
+<script>
+    $('#Istranport').click(function () {
+        var total = $('.FetMoney').attr('data-money');
+        $('#TotalMoney').val(total);
+        $('#Transport').val(true);
+        var html1 = "<h3 ><i class='fa fa-lg fa-check-circle-o'></i><a style='margin-left:36px;text-decoration:none;color:#808080'>Khách hàng đã nhận hàng</a></h3>";
+        $('.anhnhoemvanchuyen').append(html1);
+        $('.Transportabcd').hide();
+    });
+    $('#Paymentclick').click(function () {
+        $('#Payment').val(true);
+        var total = $('.FetMoney').attr('data-money');
+        $('#TotalMoney').val(total);
+        $('.FetMoney').hide();
+        var html1 = "<h3 class='FetMoney'><i class='fa fa-lg fa-check-circle-o'></i><a style='margin-left:36px;text-decoration:none;color:#808080'>Khách hàng đã thanh toán : " + total + " ₫" + "</a></h3>";
+        $('.appendthanhtoan').append(html1);
+    });
+    $('#Save').click(function () {
+        var total = $('.FetMoney').attr('data-money');
+        $('#TotalMoney').val(total);
+        $('#FormEditOrder').submit();
+    });
+</script>
