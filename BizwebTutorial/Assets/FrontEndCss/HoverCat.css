@@ -6,7 +6,9 @@
     width:100%;
     position: absolute;
     background-color: #fff;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border: 1px solid #e8e8e8;
     padding: 12px 16px;
 }
 .btn_menu_cate.dropdown:hover .dropdown-content.catshow {

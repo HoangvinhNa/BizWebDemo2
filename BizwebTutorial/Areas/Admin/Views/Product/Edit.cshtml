@@ -28,12 +28,21 @@
     }
     ul#dropdown_menu_inner_2 {
     padding-left: 0px;
-}
-    .itemCategory.selected .Liselectedcontent:before {
-        content: "O";
-    }
-    li.itemCategory{
+     }
+    
+    li.itemCategory {
         padding-left: 10px;
+    }
+    i.CheckCat{
+        width:10%;
+    }
+    .DeleteRight{
+        float:right;
+       
+        margin-top:12px;
+    }
+    .DeleteRight i{
+        font-size:16px;
     }
 </style>
 @using (Html.BeginForm("Edit", "Product", null, FormMethod.Post, new { enctype = "multipart/form-data", @id = "Formedit1" }))
@@ -43,6 +52,7 @@
         <nav class="navbar navbar-default navbar-static-top no-margin" role="navigation" style="min-height:60px;">
             <div class="col-md-9 topheaderad">
                 <h4>
+                    
                     <i class="fa fa-lg fa-fw fa-tag"></i> Sản phẩm <strong>/</strong> @Model.Alias
                 </h4>
             </div>
@@ -74,7 +84,9 @@
                         <div class="form-group">
                             <label class="control-label cm-strong"><strong>Mô tả</strong></label>
                             @Html.TextAreaFor(model => model.Descripstion, new { @class = "form-control ckeditor", @style = "height:300px;", @placeholder = "Mô tả chi tiết sản phẩm" })
-                            <a class="ShowShortDes">Mô tả ngắn</a>
+                            <div style="margin-top:10px;">
+                                <a class="ShowShortDes">Mô tả ngắn</a>
+                            </div>
                         </div>
 
                         <div class="form-group shortsed" style="display:none;">
@@ -110,7 +122,7 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-fix dropdown-menu-search" role="menu">
                         <div class="dropdown-search-header" id="dropdown_search_header_2">
-                            <input class="form-control" id="dropdown_search_input_2" placeholder="Tìm kiếm sản phẩm" type="text" />
+                            <input class="form-control" id="dropdown_search_input_2" placeholder="Tìm kiếm danh mục" type="text" />
                         </div>
                         <div class="dropdown-search-body" id="dropdown_search_body_2">
                             <div class="dropdown-menu-result" id="dropdown_menu_result_2">
@@ -132,13 +144,13 @@
                                         if (item.CategoryImage != null)
                                         {
                                 <li data-category-id="@item.CategoryId">
-                                    <img src="@Url.Content(item.CategoryImage)" width="40" height="40" /><a style="margin-left:30px;">@item.CategoryName</a>
+                                    <img src="@Url.Content(item.CategoryImage)" width="40" height="40" /><a style="margin-left:50px;">@item.CategoryName</a><a class="DeleteRight" data-id="@item.CategoryId"><i class="fa fa-fw fa-trash-o"></i></a>
                                 </li>
                                         }
                                         else
                                         {
                                 <li data-category-id="@item.CategoryId">
-                                    <img src="/Upload/No_image.png" width="40" height="40" /> <a style="margin-left:30px;">@item.CategoryName</a>
+                                    <img src="/Upload/No_image.png" width="40" height="40" /> <a style="margin-left:50px;">@item.CategoryName</a><a class="DeleteRight" data-id="@item.CategoryId"><i class="fa fa-fw fa-trash-o"></i></a>
                                 </li>
                                         }
                                     }
@@ -292,6 +304,7 @@
         $('#dropdown_search_input_2').keyup(function () {
             GetMiniCategory();
         });
+       
     });
     function GetMiniCategory(inputPage) {
         var query = $("#dropdown_search_input_2").val();
@@ -308,6 +321,7 @@
                 InitDropDownSearch();
                 CheckSelletedCategoryid();
                 SellectCategory();
+                DeleteItemCategory();
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 if (xhr.status == 404 || xhr.status == 204) {
@@ -320,6 +334,7 @@
     function SellectCategory() {
         $('#dropdown_menu_result_2  .itemCategory').click(function () {
             var _itemliclass = $(this);
+            var ioli = _itemliclass.children('i');
             var id = _itemliclass.attr('data-categoryId');
             var name = _itemliclass.attr('data-categoryName');
             var image = _itemliclass.attr('data-categoryImage');
@@ -330,12 +345,13 @@
                     contentType: 'application/json; charset=utf-8',
                     success: function (data) {
                         _itemliclass.addClass('selected');
+                          ioli.addClass('fa-check');
                         if (image != null) {
                             var imageisfix = image.replace('~', '');
-                            var htmlhasimage = "<li data-category-id='" + id + "'>" + "<img src='" + imageisfix + "' width='40' height='40' /><a style='margin-left:30px;'>"+name+"</a></li>";
+                            var htmlhasimage = "<li data-category-id='" + id + "'>" + "<img src='" + imageisfix + "' width='40' height='40' /><a style='margin-left:50px;'>" + name + "</a><a class='DeleteRight' data-id='" + id + "'><i class='fa fa-fw fa-trash-o'></i></a></li>";
                             $('.list-Category').append(htmlhasimage);
                         } else {
-                            var htmlnoimage = "<li data-category-id='" + id + "'>" + "<img src='\Upload\No_image.png' width='40' height='40' /><a style='margin-left:30px;'>" + name + "</a></li>";
+                            var htmlnoimage = "<li data-category-id='" + id + "'>" + "<img src='\Upload\No_image.png' width='40' height='40' /><a style='margin-left:50px;'>" + name + "</a><a class='DeleteRight' data-id='" + id + "'><i class='fa fa-fw fa-trash-o'></i></a></li>";
                             $('.list-Category').append(htmlnoimage);
                         }
                     }
@@ -347,6 +363,7 @@
                     contentType: 'application/json; charset=utf-8',
                     success: function (data) {
                         _itemliclass.removeClass('selected');
+                        ioli.removeClass('fa-check');
                         $('.list-Category li[data-category-id="' + id + '"]').remove();
                     }
                 });
@@ -400,11 +417,30 @@
         for (var i = 0; i < catidright.length; i++) {
             for (var j = 0; j < catidleft.length; j++) {
                 if (catidleft[j] == catidright[i]) {
-                    $('.itemCategory[data-categoryId="' + catidleft[j] + '"]').addClass('selected');
+                    var itemlicheck = $('.itemCategory[data-categoryId="' + catidleft[j] + '"]');
+                    itemlicheck.addClass('selected');
+                    itemlicheck.children('i').addClass('fa-check');
                 }
             }
         }
     };
+    function DeleteItemCategory(){
+        $('ul.list-Category a.DeleteRight').click(function () {
+            var itemDelete = $(this);
+            var Id = itemDelete.attr('data-id');
+            $.ajax({
+                url: '/Admin/Category/DeleteProduct?categoryId=' + Id + '&productId=@Model.Id',
+                type: 'GET',
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    var ItemLiLeftView = $('#dropdown_menu_result_2  li.itemCategory[data-categoryid="' + Id + '"]');
+                    ItemLiLeftView.removeClass('selected');
+                    ItemLiLeftView.children('i').removeClass('fa-check');
+                    $('.list-Category li[data-category-id="' + Id + '"]').remove();
+                }
+            });
+        });
+    }
 </script>
 <style>
     #AddImage {
@@ -426,11 +462,6 @@
     .fa-trash-o{
         font-size:20px;
     }
-
-    .itemCategory.selected{
-        content: "\f00c";
-    }
-
     .itemproduct_image {
         width: 150px;
         height: 150px;
@@ -527,6 +558,7 @@
 </script>
 <script>
     $('.ShowShortDes').click(function () {
-        $('.shortsed').show();
+        $('.shortsed').toggle('slow');
     });
+  
 </script>

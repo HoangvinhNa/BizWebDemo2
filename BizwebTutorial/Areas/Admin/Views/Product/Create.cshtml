@@ -3,8 +3,6 @@
     ViewBag.Title = "Create";
 }
 <style>
-    
-
     .itemCategory {
         list-style: none;
     }
@@ -36,14 +34,21 @@
 
    ul#dropdown_menu_inner_2 {
     padding-left: 0px;
-}
-    .itemCategory.selected .Liselectedcontent:before {
-        content: "";
     }
     li.itemCategory{
         padding-left: 10px;
     }
-
+    i.CheckCat{
+        width:10%;
+    }
+      .DeleteRight{
+        float:right;
+       
+        margin-top:12px;
+    }
+    .DeleteRight i{
+        font-size:16px;
+    }
     
 </style>
 @using (Html.BeginForm("Create", "Product", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
@@ -82,7 +87,9 @@
                         <div class="form-group">
                             <label class="control-label cm-strong"><strong>Mô tả</strong></label>
                             @Html.TextAreaFor(model => model.Descripstion, new { @class = "form-control ckeditor", @style = "height:300px;", @placeholder = "Mô tả chi tiết sản phẩm" })
-                            <a class="ShowShortDes">Mô tả ngắn</a>
+                            <div style="margin-top:10px;">
+                                <a class="ShowShortDes">Mô tả ngắn</a>
+                            </div>
                         </div>
 
                         <div class="form-group shortsed" style="display:none;">
@@ -118,7 +125,7 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-fix dropdown-menu-search" role="menu">
                         <div class="dropdown-search-header" id="dropdown_search_header_2">
-                            <input class="form-control" id="dropdown_search_input_2" placeholder="Tìm kiếm sản phẩm" type="text" />
+                            <input class="form-control" id="dropdown_search_input_2" placeholder="Tìm kiếm danh mục" type="text" />
                         </div>
                         <div class="dropdown-search-body" id="dropdown_search_body_2">
                             <div class="dropdown-menu-result" id="dropdown_menu_result_2">
@@ -257,6 +264,7 @@
 </style>
 <script>
     $(document).ready(function () {
+        GetMiniCategory();
         $('#dropdown_search_input_2').keyup(function () {
             GetMiniCategory();
         });
@@ -288,29 +296,32 @@
     function SellectCategory() {
         $('#dropdown_menu_result_2  .itemCategory').click(function () {
             var _itemliclass = $(this);
+            var ioli = _itemliclass.children('i');
             var id = _itemliclass.attr('data-categoryId');
             var name = _itemliclass.attr('data-categoryName');
             var image = _itemliclass.attr('data-categoryImage');
             var IdcategoryMapstring = [];
             if (_itemliclass.hasClass('selected') == false) {
                 _itemliclass.addClass('selected');
+                ioli.addClass('fa-check');
                 if (image != null) {
                     var imageisfix = image.replace('~', '');
-                    var htmlhasimage = "<li data-category-id='" + id + "'>" + "<img src='" + imageisfix + "' width='40' height='40' /><a style='margin-left:30px;'>" + name + "</a></li>";
+                    var htmlhasimage = "<li data-category-id='" + id + "'>" + "<img src='" + imageisfix + "' width='40' height='40' /><a style='margin-left:50px;'>" + name + "</a><a class='DeleteRight' data-id='" + id + "'><i class='fa fa-fw fa-trash-o'></i></a></li>";
                     $('.list-Category').append(htmlhasimage);
                 } else {
-                    var htmlnoimage = "<li data-category-id='" + id + "'>" + "<img src='/Upload/No_image.png' width='40' height='40' /><a style='margin-left:30px;'>" + name + "</a></li>";
+                    var htmlnoimage = "<li data-category-id='" + id + "'>" + "<img src='/Upload/No_image.png' width='40' height='40' /><a style='margin-left:50px;'>" + name + "</a><a class='DeleteRight' data-id='" + id + "'><i class='fa fa-fw fa-trash-o'></i></a></li>";
                     $('.list-Category').append(htmlnoimage);
                 }
                 IdcategoryMapstring = GetcategoryIdRightView();
             } else {
                 _itemliclass.removeClass('selected');
+                ioli.removeClass('fa-check');
                 $('.list-Category li[data-category-id="' + id + '"]').remove();
                 IdcategoryMapstring = GetcategoryIdRightView();
                 IdcategoryMapstring.splice();
             }
             $('#CategoryIdsString').val(IdcategoryMapstring.toString());
-            console.log($('#CategoryIdsString').val());
+            
         });
     };
     function InitDropDownSearch() {
@@ -359,11 +370,17 @@
         for (var i = 0; i < catidright.length; i++) {
             for (var j = 0; j < catidleft.length; j++) {
                 if (catidleft[j] == catidright[i]) {
-                    $('.itemCategory[data-categoryId="' + catidleft[j] + '"]').addClass('selected');
+                    var itemlicheck = $('.itemCategory[data-categoryId="' + catidleft[j] + '"]');
+                    itemlicheck.addClass('selected');
+                    itemlicheck.children('i').addClass('fa-check');
                 }
             }
         }
     };
+    $('ul.list-Category li a.DeleteRight').click(function () {
+        console.log('asdf');
+
+    });
 </script>
 <script type="text/javascript">
     $('.addmanyimage').click(function () {
@@ -434,6 +451,6 @@
 </script>
 <script>
     $('.ShowShortDes').click(function () {
-        $('.shortsed').show();
+        $('.shortsed').toggle('slow');
     });
 </script>
