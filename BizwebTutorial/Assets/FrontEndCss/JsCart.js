@@ -1,15 +1,30 @@
-﻿
-$(document).ready(function () {
-    var ProductId = $('.box_product_index .item_select').attr('data-id');
-    $('.area_btn[data-id="' + ProductId + '"] .add_to_cart').click(function () {
-        var _itemproductselect = $('.box_product_index .item_select[data-id="' + ProductId + '"]');
-        var productImage = _itemproductselect.attr('data-image');
-        var productname = _itemproductselect.attr('data-name');
-        var productprice = _itemproductselect.attr('data-price');
-        $('.area_btn #ProductId').val(ProductId);
-        $('.area_btn #ProductImage').val(productImage);
-        $('.area_btn #ProductName').val(productname);
-        $('.area_btn #ProductPrice').val(productprice);
-        $('.area_btn #ProductQuantity').val(1);
+﻿$(document).ready(function () {
+    $('.box_product_index .add_to_cart').click(function () {
+        var itembutton = $(this);
+        var item_parent = itembutton.parent();
+        var Id = item_parent.attr('data-id');
+        var NameProduct = item_parent.attr('data-name');
+        var PriceProduct = item_parent.attr('data-price');
+        var ImageProduct = item_parent.attr('data-image');
+        var QuantityProduct = 1;
+        var objects = { Id, ImageProduct,NameProduct,PriceProduct, QuantityProduct };
+        var entity = JSON.stringify(objects);
+        $.ajax({
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            type: 'POST',
+            url: '/ShopingCart/AddCart',
+            data: entity,
+            success: function (arh) {
+                var htmlstring =
+                "<div>"
+                + "<img src='" + ImageProduct + "' width='50' height='50' />" + "<a class='box_cartint'>" + NameProduct + "</a>"
+               + "</div>";
+                $.jGrowl(htmlstring);
+            },
+            failure: function (response) {
+             
+            }
+        });
     });
 });

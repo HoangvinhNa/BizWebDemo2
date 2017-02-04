@@ -40,6 +40,7 @@ namespace BizwebTutorial.Controllers
                     template.ProductName = product.Name;
                     template.Productprice = product.Price;
                     template.ProductAlias= product.Alias;
+                    template.OldPrice = product.OldPrice;
                 }
                 model.ListProducts.Add(template);
             }

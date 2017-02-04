@@ -10,6 +10,7 @@ namespace Models.ProductModelFix
         public string Vendor { get; set; }
         public string Image { get; set; }
         public long Price { get; set; }
+        public long? Old_Price { get; set; }
         public string Alias { get; set; }
     }
 }

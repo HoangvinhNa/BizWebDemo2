@@ -10,19 +10,13 @@ namespace BizwebTutorial.Controllers
 {
     public class ShopingCartController : Controller
     {
-        [ChildActionOnly]
-        public ActionResult AddCart()
-        {
-            return PartialView();
-        }
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult AddCart(CartViewModel entity)
         {
             List<CartViewModel> cartViewModel = new List<CartViewModel>();
             HttpCookie Cookiecart = HttpContext.Request.Cookies["CartCookie"];
             if (Cookiecart != null)
-            {
+            {   
                 var valuecookie = Server.UrlDecode(Cookiecart.Value);
                 cartViewModel = JsonConvert.DeserializeObject<List<CartViewModel>>(valuecookie);
                 var cartExist = cartViewModel.Where(s => s.Id == entity.Id).SingleOrDefault();
@@ -32,6 +26,7 @@ namespace BizwebTutorial.Controllers
                     HttpCookie cookie = new HttpCookie("CartCookie", ItemJson);
                     cookie.Expires.AddDays(2);
                     HttpContext.Response.Cookies.Add(cookie);
+                    return Json("Ok", JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
@@ -48,6 +43,7 @@ namespace BizwebTutorial.Controllers
                     HttpCookie cookie = new HttpCookie("CartCookie", ItemJson);
                     cookie.Expires.AddDays(2);
                     HttpContext.Response.Cookies.Add(cookie);
+                    return Json("Ok", JsonRequestBehavior.AllowGet);
                 }
             }
             else
@@ -65,8 +61,8 @@ namespace BizwebTutorial.Controllers
                 HttpCookie cookie = new HttpCookie("CartCookie", ItemJson);
                 cookie.Expires.AddDays(2);
                 HttpContext.Response.Cookies.Add(cookie);
+                return Json("Ok", JsonRequestBehavior.AllowGet);
             }
-            return RedirectToAction("DisplayCart");
         }
         public ActionResult DisplayCart()
         {
@@ -98,6 +94,7 @@ namespace BizwebTutorial.Controllers
             }
             return View(model);
         }
+        [HttpPost]
         public ActionResult Deleteproduct(int Id)
         {
             List<CartViewModel> cartViewModel = new List<CartViewModel>();
@@ -113,7 +110,7 @@ namespace BizwebTutorial.Controllers
                 cookie.Expires.AddDays(2);
                 HttpContext.Response.Cookies.Add(cookie);
             }
-            return RedirectToAction("DisplayCart");
+            return Json("Ok", JsonRequestBehavior.AllowGet);
         }
         public ActionResult DeleteAll()
         {

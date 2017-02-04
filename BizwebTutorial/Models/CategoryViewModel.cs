@@ -22,5 +22,6 @@ namespace BizwebTutorial.Models
         public string ProductAlias { get; set; }
         public string ProductImage { get; set; }
         public long Productprice { get; set; }
+        public long? OldPrice { get; set; }
     }
 }

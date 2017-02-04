@@ -14,12 +14,10 @@
             <h3><a href="/san-pham/@item.Alias">@item.Name</a></h3>
         </div>
         <div class="product_price">
-            <span class="price_new">@item.Price  ₫</span>
+            <span class="price_new" style="color:#e24d85;font-size:20px;">@item.Price ₫ <strike style="color:#808080;font-size:15px;">@item.Old_Price ₫</strike></span>
         </div>
         <div class="area_btn" data-id="@item.Id" data-image="@Url.Content(item.Image)" data-name="@item.Name" data-price="@item.Price">
-            @{
-                Html.RenderAction("AddCart", "ShopingCart");
-            }
+            <button type="button" class="button btn-cart add_to_cart btn btn-default btn_theme" title="Cho vào giỏ hàng"><span>Mua hàng</span></button>
         </div>
     </div>  
 }

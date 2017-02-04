@@ -23,6 +23,7 @@ namespace BizwebTutorial.Dao
                 {
                     Id = item.Id,
                     Price = item.Price,
+                    Old_Price=item.OldPrice,
                     Name = item.Name,
                     Alias = item.Alias,
                     Image = imageFirst != null ? imageFirst.PathImage : ("~/Upload/No_image.png")
@@ -44,6 +45,7 @@ namespace BizwebTutorial.Dao
                     Id = item.Id,
                     Price = item.Price,
                     Name = item.Name,
+                    Old_Price=item.OldPrice,
                     Alias = item.Alias,
                     Image = imageFirst != null ? imageFirst.PathImage : ("~/Upload/No_image.png")
                 };
@@ -64,6 +66,7 @@ namespace BizwebTutorial.Dao
                     Id = item.Id,
                     Price = item.Price,
                     Name = item.Name,
+                    Old_Price=item.OldPrice,
                     Alias = item.Alias,
                     Image = imageFirst != null ? imageFirst.PathImage : ("~/Upload/No_image.png")
                 };
@@ -83,6 +86,7 @@ namespace BizwebTutorial.Dao
                 {
                     Id = item.Id,
                     Price = item.Price,
+                    Old_Price=item.OldPrice,
                     Name = item.Name,
                     Alias = item.Alias,
                     Image = imageFirst != null ? imageFirst.PathImage : ("~/Upload/No_image.png")

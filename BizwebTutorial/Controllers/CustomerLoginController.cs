@@ -8,6 +8,7 @@ using BizwebTutorial.Dao;
 using Models.Dao;
 using Models.ViewModel;
 using Newtonsoft.Json;
+using BizwebTutorial.Dao;
 
 namespace BizwebTutorial.Controllers
 {
@@ -62,7 +63,7 @@ namespace BizwebTutorial.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = _CustomerService.Login(entity.Email, entity.Password);
+                var result = _CustomerService.Login(entity.Email, Encryptor.MD5Hash(entity.Password));
                 if (result)
                 {
                     var customersa = _CustomerService.getbyId(entity.Email);
@@ -111,7 +112,7 @@ namespace BizwebTutorial.Controllers
                 var result = _CustomerService.CustomerRegis(entity);
                 if (result > 0)
                 {
-                    var login = _CustomerService.Login(entity.Email, entity.Password);
+                    var login = _CustomerService.Login(entity.Email, Encryptor.MD5Hash(entity.Password));
                     if (login)
                     {
                         var customersa = _CustomerService.getbyId(entity.Email);

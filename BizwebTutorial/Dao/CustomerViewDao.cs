@@ -7,14 +7,14 @@ using BizwebTutorial.Models;
 namespace BizwebTutorial.Dao
 {
     public class CustomerViewDao
-    {
+    {   
         private BiMartDbContext Dbcontext = new BiMartDbContext();
         public int CustomerRegis(CustomerLoginModel entity)
         {
             var customer = new Customer()
             {
                 Email=entity.Email,
-                Password=entity.Password,
+                Password= Encryptor.MD5Hash(entity.Password),
                 Address=entity.Address,
                 Name=entity.Name,
                 CreatedOn=DateTime.Now
