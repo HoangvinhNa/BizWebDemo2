@@ -1,5 +1,4 @@
-﻿
-@using Newtonsoft.Json;
+﻿@using Newtonsoft.Json;
 @using BizwebTutorial.Models;
 <!DOCTYPE html>
 <html>
@@ -30,8 +29,8 @@
                                     <img src="~/ImageHome/logo_footer.png" style="max-width:100%;" />
                                     <div class="loginContent">
                                         <ul>
-                                            <li><a href="/dang-nhap"><i class="fa fa-user" style="color:#e24d85"></i> Đăng Nhập</a></li>
-                                            <li><a href="/dang-ki"><i class="fa fa-users"style="color:#e24d85"></i> Đăng Kí</a></li> 
+                                            <li class="right_btn"><a href="/dang-nhap"><i class="fa fa-user" style="color:#e24d85"></i> Đăng Nhập</a></li>
+                                            <li><a href="/dang-ki"><i class="fa fa-users" style="color:#e24d85"></i> Đăng Kí</a></li>
                                         </ul>
                                     </div>
                                     <div class="MenuMain">
@@ -44,15 +43,16 @@
                                             @{
                                                 Html.RenderAction("CategoryView", "CategoryView");
                                             }
-                                           <script>
-                                               $('.accordion').click(function () {
-                                                   $('.abcd').toggle('slow');
-                                               });
-                                           </script>
+                                            <script>
+                                                $('.accordion').click(function () {
+                                                    $('.abcd').toggle('slow');
+                                                });
+                                            </script>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
                             <a onclick="openNav()" style="float:left;font-size:25px;color:#e24d85"><i class="fa fa-bars"></i></a>
                             <script>
                                 function openNav() {
@@ -66,8 +66,24 @@
                                     document.body.style.backgroundColor = "white";
                                 }
                             </script>
-
-                            <a style="float:right;font-size:25px;color:#e24d85"><i class="fa fa-shopping-cart"></i></a>
+                            @{
+                                List<CartViewModel> cartViewModel = new List<CartViewModel>();
+                                HttpCookie CartCookie = Request.Cookies.Get("CartCookie");
+                                if (CartCookie != null)
+                                {
+                                    string ValueCookie = Server.UrlDecode(CartCookie.Value);
+                                    ViewBag.ValueCookie = ValueCookie;
+                                    cartViewModel = JsonConvert.DeserializeObject<List<CartViewModel>>(ValueCookie);
+                                }
+                                long quantityproduct = 0;
+                                foreach (var item in cartViewModel)
+                                {
+                                    quantityproduct += item.QuantityProduct;
+                                }
+                            }
+                            
+                            <a onclick="openNav1()" style="float:right;"> <i class="CartIcon fa fa-shopping-cart"><i class="cicle fa fa-circle" style="text-align:center;"> <i class="cartcount2">@quantityproduct</i></i></i></a>
+                            
                         </div>
                         <div class="logo_pc col-md-3 col-sm-12 col-xs-12" style="text-align:center;">
                             <button class="menushow" style="display:none"><i class="fa fa-bars"></i></button>
@@ -97,7 +113,8 @@
                             else
                             {
                                 var valueCuscookie = Server.UrlDecode(CusCookie.Value);
-                                var CusViewModel = JsonConvert.DeserializeObject<CustomerLoginModel>(valueCuscookie);
+                                var CusViewModel = JsonConvert.DeserializeObject<CustomerLoginModel>
+                                    (valueCuscookie);
                                 var modelLoading = new CustomerLoginModel()
                                 {
                                     ID = CusViewModel.ID,
@@ -240,5 +257,25 @@
 </body>
 </html>
 <style>
+    .cicle {
+        position: absolute;
+        margin-left: 1px;
+        font-size: 16px;
+    }
 
+    .cartcount2 {
+    position: absolute;
+    margin-top: -14px;
+    color: #ffffff;
+    margin-left: -2px;
+    font-size: 10px;
+    }
+
+    .CartIcon {
+        font-size: 20px;
+        color: #e24d85;
+        position: absolute;
+        margin-left: -25px;
+        padding-top: 7px;
+    }
 </style>

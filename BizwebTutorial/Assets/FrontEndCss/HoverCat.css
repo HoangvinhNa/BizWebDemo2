@@ -3,7 +3,9 @@
 }
 .dropdown-content.catshow{
     display: none;
-    width:100%;
+    width: 101%;
+    left: -1px;
+    top:50px;
     position: absolute;
     background-color: #fff;
     border-bottom-left-radius: 5px;

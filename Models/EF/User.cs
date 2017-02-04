@@ -29,9 +29,12 @@ namespace Models.EF
 
         [StringLength(255)]
         public string Address { get; set; }
-        public string Role { get; set; }
+
         public DateTime? CreateOn { get; set; }
 
         public DateTime? ModifiedOn { get; set; }
+
+        [StringLength(50)]
+        public string Role { get; set; }
     }
 }

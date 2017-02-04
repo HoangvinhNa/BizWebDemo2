@@ -94,29 +94,35 @@
   <ItemGroup>
     <Compile Include="Dao\CategoryDao.cs" />
     <Compile Include="Dao\CollectionDao.cs" />
+    <Compile Include="Dao\CommentDao.cs" />
     <Compile Include="Dao\CustomerDao.cs" />
     <Compile Include="Dao\OrderDao.cs" />
     <Compile Include="Dao\ProductDao.cs" />
+    <Compile Include="Dao\SlideImageDao.cs" />
     <Compile Include="Dao\UserDao.cs" />
     <Compile Include="EF\BiMartDbContext.cs" />
     <Compile Include="EF\Category.cs" />
     <Compile Include="EF\Collection.cs" />
+    <Compile Include="EF\CommentUser.cs" />
     <Compile Include="EF\Customer.cs" />
     <Compile Include="EF\ImagePath.cs" />
     <Compile Include="EF\Order.cs" />
     <Compile Include="EF\Product.cs" />
+    <Compile Include="EF\SlideImage.cs" />
     <Compile Include="EF\User.cs" />
     <Compile Include="ProductModelFix\ProductDeatailModel.cs" />
     <Compile Include="ProductModelFix\ProductListTbModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel\CategoryEditModel.cs" />
     <Compile Include="ViewModel\CategoryModel.cs" />
+    <Compile Include="ViewModel\ContactUser.cs" />
     <Compile Include="ViewModel\CustomerEditGetOrderModel.cs" />
     <Compile Include="ViewModel\EditCustomerAddressInformation.cs" />
     <Compile Include="ViewModel\CustomerModel.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\OrderModel.cs" />
     <Compile Include="ViewModel\ProductModel.cs" />
+    <Compile Include="ViewModel\SlideModels.cs" />
     <Compile Include="ViewModel\Usermodel.cs" />
   </ItemGroup>
   <ItemGroup>

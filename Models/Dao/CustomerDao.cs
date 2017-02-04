@@ -21,7 +21,7 @@ namespace Models.Dao
                     customer = customer.OrderByDescending(s => s.Name);
                     break;
                 default:
-                    customer = customer.OrderBy(s => s.Id);
+                    customer = customer.OrderByDescending(s => s.Id);
                     break;
             }
             if (!string.IsNullOrEmpty(searchstring))

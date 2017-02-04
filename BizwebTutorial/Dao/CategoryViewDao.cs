@@ -16,7 +16,8 @@ namespace BizwebTutorial.Dao
         }
          public IEnumerable<Product> GetListProDuctOfCategory(List<int> IdsProduct)
         {
-            return Dbcontext.Products.Where(x=>IdsProduct.Contains(x.Id)).OrderByDescending(x=>x.Name).ToList();
+            var listmodel= Dbcontext.Products.Where(x => IdsProduct.Contains(x.Id)).OrderByDescending(x => x.Name).ToList();
+            return listmodel;
         }
     }
 }

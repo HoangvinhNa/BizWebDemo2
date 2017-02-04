@@ -13,7 +13,8 @@ namespace BizwebTutorial.Dao
         private BiMartDbContext Dbcontext = new BiMartDbContext();
         public IEnumerable<ProductListTbModel> GetProductByType()
         {
-            var listproduct = Dbcontext.Products.Where(x => x.ProductType == "ThoiTrang").OrderByDescending(x => x.Name).ToList().Take(4);
+            var ListProductId= Dbcontext.Collections.Where(s=>s.CategoryId== 2101).Select(s=>s.ProductId);
+            var listproduct = Dbcontext.Products.Where(c=>ListProductId.Contains(c.Id)).Take(4);
             var listmodel = new List<ProductListTbModel>();
             foreach (var item in listproduct)
             {
@@ -32,7 +33,8 @@ namespace BizwebTutorial.Dao
         }
         public IEnumerable<ProductListTbModel> GetProductOfMachine()
         {
-            var listproduct = Dbcontext.Products.Where(x => x.ProductType == "ThietBiDienTu").OrderByDescending(x => x.Name).ToList().Take(4);
+            var ListProductId = Dbcontext.Collections.Where(s => s.CategoryId == 2102).Select(s => s.ProductId);
+            var listproduct = Dbcontext.Products.Where(c => ListProductId.Contains(c.Id)).Take(4);
             var listmodel = new List<ProductListTbModel>();
             foreach (var item in listproduct)
             {
@@ -51,7 +53,8 @@ namespace BizwebTutorial.Dao
         }
         public IEnumerable<ProductListTbModel> GetProductOfGift()
         {
-            var listproduct = Dbcontext.Products.Where(x => x.ProductType == "ToyGift").OrderByDescending(x => x.Name).ToList().Take(4);
+            var ListProductId = Dbcontext.Collections.Where(s => s.CategoryId == 1100).Select(s => s.ProductId);
+            var listproduct = Dbcontext.Products.Where(c => ListProductId.Contains(c.Id)).Take(4);
             var listmodel = new List<ProductListTbModel>();
             foreach (var item in listproduct)
             {

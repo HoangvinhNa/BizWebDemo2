@@ -1,8 +1,8 @@
-﻿@{
+﻿@model IEnumerable<Models.EF.SlideImage> 
+@{
     ViewBag.Title = "Trang Chủ" ;
 }
 <link href="/Assets/FrontEndCss/HomeStyle.css" rel="stylesheet" />
-
 <div class="row">
     <div class="col-md-3 hidden-sm hidden-xs">
         <div class="menu_cate_list">
@@ -14,9 +14,11 @@
     <div class="slidershow col-md-9 col-sm-12 col-xs-12">
         <div class="swiper-container">
             <div class="swiper-wrapper">
-                <div class="swiper-slide"><img src="~/ImageHome/img_coverage1.jpg" class="img-responsive" /></div>
-                <div class="swiper-slide"><img src="~/ImageHome/img_coverage2.jpg" class="img-responsive" /></div>
-                <div class="swiper-slide"><img src="~/ImageHome/img_coverage3.jpg" class="img-responsive" /></div>
+                @foreach (var item in Model)
+                {  
+                    <div class="swiper-slide"><img src="@Url.Content(item.ImageSlide)" class="img-responsive" /></div>
+                    
+                }
             </div>
             <div class="swiper-pagination"></div>
             <div class="swiper-button-next"></div>
@@ -27,7 +29,7 @@
 <div class="row">
     <div class="col-md-9 col-sm-12 col-xs-12">
         <div class="box_product_index">
-            <h2><span>THỜI TRANG</span></h2>
+            <a href="danh-muc/san-pham-dep"><h2><span>Sản Phẩm Đẹp</span></h2></a>
             <div class="grid_item" style="text-align:center;">
                 @{
                     Html.RenderAction("ListProductByType", "ProductView");
@@ -38,7 +40,7 @@
             <a href="#"><img alt="Bizmart.net" class="img-responsive" src="~/ImageHome/banner_img1.jpg"></a>
         </div>
         <div class="box_product_index">
-            <h2><span>Phụ Kiện-Thiết Bị Số</span></h2>
+            <a href="danh-muc/san-pham-khuyen-mai"><h2><span>Sản Phẩm Khuyến Mãi</span></h2></a>
             <div class="grid_item" style="text-align:center;">
                 @{
                     Html.RenderAction("ListProductMachine", "ProductView");
@@ -49,7 +51,7 @@
             <a href="#"><img alt="Bizmart.net" class="img-responsive" src="~/ImageHome/banner_img2.jpg"></a>
         </div>
         <div class="box_product_index">
-            <h2><span>Đồ Chơi-Quà Tặng</span></h2>
+            <a href="danh-muc/san-pham-moi"><h2><span>Sản Phẩm Mới</span></h2></a>
             <div class="grid_item" style="text-align:center;">
                 @{
                     Html.RenderAction("ListProductGift", "ProductView");

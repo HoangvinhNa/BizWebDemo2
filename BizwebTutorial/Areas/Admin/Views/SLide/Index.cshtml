@@ -1,0 +1,101 @@
+﻿@model  IEnumerable<Models.EF.SlideImage>
+<header class="navbar-fixed-top" style="margin-left:240px;">
+    <nav class="navbar navbar-default navbar-static-top no-margin" role="navigation" style="min-height:60px;">
+        <div class="col-md-9 topheaderad">
+            <h4>
+                <i class="fa fa-lg fa-fw fa-image"></i> Slide
+            </h4>
+        </div>
+        <div class="col-md-3 topheaderad">
+            <div class="group_button submitab">
+                <a style="text-decoration:none;">
+                    <input type="file" id="FileUpload1" multiple="multiple" style="display:none;"/>
+                    <input type="button" class="btn btn-default" id="btnUpload" value="Thêm mới" />  
+                </a>
+            </div>
+        </div>
+    </nav>
+</header>
+<div class="container-fluid-md">
+    <div class="row">
+        <div class="panel panel-default panel-light">
+            <div class="panel-body">
+                @foreach (var item in Model)
+                {
+                    <div class="form-group  col-md-6">
+                        <i class="fa fa-trash-o deleteitem" data-id="@item.Id"></i><img src="@Url.Content(item.ImageSlide)" style="max-width:100%;" />
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    i.fa.fa-trash-o.deleteitem {
+        position: absolute;
+        color: #355ac1;
+        padding-left: 10px;
+        padding-top: 10px;
+        font-size: 20px;
+    }
+</style>
+<script>
+    $('.deleteitem').click(function () {
+        console.log('anh yeu em');
+        var item = $(this);
+        var id = item.attr("data-id");
+        $.ajax({
+            url: '/Admin/Slide/Delete?Id=' + id + '',
+            type: 'GET',
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                var parenimage = item.parent();
+                parenimage.remove();
+            }
+        });
+    });
+    $('#btnUpload').click(function () {
+        $('#FileUpload1').click();
+    });
+
+    $(document).ready(function(){  
+        $('#FileUpload1').on('change', function () {
+  
+            // Checking whether FormData is available in browser  
+            if (window.FormData !== undefined) {  
+  
+                var fileUpload = $("#FileUpload1").get(0);  
+                var files = fileUpload.files;  
+              
+                // Create FormData object  
+                var fileData = new FormData();  
+  
+                // Looping over all files and add it to FormData object  
+                for (var i = 0; i < files.length; i++) {  
+                    fileData.append(files[i].name, files[i]);  
+                }  
+                $.ajax({  
+                    url: '/Slide/Create',  
+                    type: "POST",  
+                    contentType: false, // Not to set any content header  
+                    processData: false, // Not to process data  
+                    data: fileData,  
+                    success: function (result) {
+                        console.log(result);
+                       // $(".comtoarea").click();
+                        window.location = "/Admin/Slide";
+                    },  
+                    error: function (err) {
+                        console.log('vao loi');
+                        alert(err.statusText);  
+                    }  
+                });  
+            } else {  
+                alert("FormData is not supported.");  
+            }  
+        });  
+    });  
+    
+
+
+</script>

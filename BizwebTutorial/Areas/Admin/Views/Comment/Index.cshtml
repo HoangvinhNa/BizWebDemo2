@@ -1,0 +1,64 @@
+﻿@model PagedList.IPagedList<Models.EF.CommentUser>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Index";
+}
+<header class="navbar-fixed-top" style="margin-left:240px;">
+    <nav class="navbar navbar-default navbar-static-top no-margin" role="navigation" style="min-height:60px;">
+        <div class="col-md-9 topheaderad">
+            <h4>
+                <i class="fa fa-lg fa-fw fa-cloud"></i> Ý Kiến Khách Hàng
+            </h4>
+        </div>
+        <div class="col-md-3 topheaderad">
+          
+        </div>
+    </nav>
+</header>
+
+<div class="container-fluid-md">
+    <div class="tab-content">
+        <div class="Serbox" style="width:100%; height:100px;">
+            @using (Html.BeginForm("Index", "Comment", FormMethod.Get))
+            {
+                <div style="padding-top:40px;">
+                    <div class="col-md-2 seratad">
+                        <a style="margin-left:90px;">
+                            <input class="btn btn-default btn-primary" id="SearchCus" type="submit" value="Tìm Kiếm">
+                        </a>
+                    </div>
+                    <div class="col-md-8 seratad">
+                        @Html.TextBox("SearchString", ViewBag.CurentSearch as string, new { @class = "form-control", placeholder = "Nhập từ khóa tìm kiếm ..." })
+                    </div>
+                </div>
+            }
+        </div>
+        <hr />
+        <table id="table-basic" class="table table-hover vert-align">
+            <thead>
+                <tr>
+                    <th>Nhận xét</th>
+                    <th>Email Khách Hàng </th>
+                    <th>Thời Gian Nhận</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.ActionLink("#" + item.Id, "Details", new { id = item.Id })
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EmailUser)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Send_On)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <p class="pagenumber">Hiển thị kết quả từ 1 - @Model.Count trên tổng @Model.Count</p>
+    </div>
+</div>

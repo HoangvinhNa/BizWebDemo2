@@ -16,8 +16,6 @@ namespace Models.EF
 
         public string Descripstion { get; set; }
 
-        public string ShortDescription { get; set; }
-
         [StringLength(255)]
         public string ProductType { get; set; }
 
@@ -38,11 +36,11 @@ namespace Models.EF
         [StringLength(255)]
         public string Barcode { get; set; }
 
-        public bool Store { get; set; }
-        
-        public int Quantity { get; set; }
+        public bool? Store { get; set; }
 
-        public bool IsOrder { get; set; }
+        public int? Quantity { get; set; }
+
+        public bool? IsOrder { get; set; }
 
         [StringLength(50)]
         public string Tag { get; set; }
@@ -50,7 +48,9 @@ namespace Models.EF
         [Required]
         [StringLength(255)]
         public string MetaTitle { get; set; }
+
         public string MetaDescription { get; set; }
+
         [Required]
         [StringLength(255)]
         public string Alias { get; set; }
@@ -60,5 +60,7 @@ namespace Models.EF
         public DateTime CreatedOn { get; set; }
 
         public DateTime? ModifiedOn { get; set; }
+
+        public string ShortDescription { get; set; }
     }
 }

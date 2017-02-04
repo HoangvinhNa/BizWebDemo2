@@ -11,65 +11,84 @@
     padding-top: 60px;
 }
 
-.sidenav a {
-    text-decoration: none;
-  
-    color: #818181;
-    display: block;
-    transition: 0.3s
+    .sidenav a {
+        text-decoration: none;
+        color: #818181;
+        display: block;
+        transition: 0.3s;
+    }
+
+        .sidenav a:hover, .offcanvas a:focus {
+            color: #f1f1f1;
+        }
+
+    .sidenav .closebtn {
+        position: absolute;
+        top: 0;
+        right: 25px;
+        font-size: 36px;
+        margin-left: 50px;
+    }
+
+.myBizweb {
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
-.sidenav a:hover, .offcanvas a:focus{
-    color: #f1f1f1;
+.loginContent ul {
+    padding-left: 0px;
+    width: 100%;
+    height: 100%;
+    text-align: center;
 }
-.sidenav .closebtn {
-    position: absolute;
-    top: 0;
-    right: 25px;
-    font-size: 36px;
-    margin-left: 50px;
+
+    .loginContent ul li {
+        list-style: none;
+        float: left;
+        width: 50%;
+        font-size: 15px;
+       
+    }
+
+    .loginContent ul li.right_btn{
+         border-right: 1px solid #fff;
+    }
+
+.loginContent {
+    width: 100%;
+    height: 30px;
+    margin-top: 20px;
 }
-.myBizweb{
-    padding-left:15px;
-    padding-right:15px;
+
+.MenuMain {
+    margin-top: 10px;
+    width: 100%;
 }
-.loginContent ul{
-    padding-left:0px;
-    width:100%;
-    height:100%;
-    text-align:center;
+
+    .MenuMain a {
+        padding-left: 10px;
+        font-size: 18px;
+    }
+
+.abcd ul li {
+    list-style: none;
 }
-.loginContent ul li{
-    list-style:none;
-    float:left;
-    width:50%;
-      font-size: 15px;
+
+.abcd ul {
+    padding-left: 10px;
 }
-.loginContent{
-    width:100%;
-    height:30px;
-    margin-top:20px;
-}
-.MenuMain{
-    margin-top:10px;
-    width:100%;
-}
-.MenuMain a{
-    padding-left:10px;
-      font-size: 18px;
-}
-.abcd ul li{
-    list-style:none;
-   
-}
-.abcd ul{
-    padding-left:10px;
-}
-.abcd ul li a{
-    list-style:none;
-    font-size:15px;
-}
+
+    .abcd ul li a {
+        list-style: none;
+        font-size: 15px;
+    }
+
 @media screen and (max-height: 450px) {
-  .sidenav {padding-top: 15px;}
-  .sidenav a {font-size: 18px;}
+    .sidenav {
+        padding-top: 15px;
+    }
+
+        .sidenav a {
+            font-size: 18px;
+        }
 }

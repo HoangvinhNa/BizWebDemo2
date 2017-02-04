@@ -1,12 +1,12 @@
 ﻿@model List<BizwebTutorial.Models.CartViewModel>
 <link href="~/Assets/FrontEndCss/HoverCat.css" rel="stylesheet" />
-@{ 
+@{
     HttpCookie CookieCart = Request.Cookies.Get("CartCookie");
 }
 
-    @using (Html.BeginForm("DisplayCart", "ShopingCart",FormMethod.Post))
-    {
-        @Html.AntiForgeryToken()
+@using (Html.BeginForm("DisplayCart", "ShopingCart", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
     <div class="box_cart">
         <table class="table-bordered">
             <thead>
@@ -15,7 +15,8 @@
                     <th>Tên</th>
                     <th width="15%">Giá</th>
                     <th width="10%">Số Lượng</th>
-                    <th width="14%">Xóa Sản Phẩm</th>
+                    <th>Thành Tiền</th>
+                    <th width="14%">Xóa</th>
                 </tr>
             </thead>
             <tbody>
@@ -32,35 +33,60 @@
                             @Html.HiddenFor(model => Model[i].PriceProduct)
                             @Html.TextBoxFor(model => Model[i].QuantityProduct, new { @type = "number", @class = "form-control" })
                         </td>
-                        <td><a href="/ShopingCart/Deleteproduct/@Model[i].Id">Xóa</a></td>
+                        @{
+                            var result1 = Model[i].QuantityProduct * Model[i].PriceProduct;
+                        }
+                        <td class="TotalLineCart" data-moneyline="@result1">@result1 ₫</td>
+                        <td><a href="/ShopingCart/Deleteproduct/@Model[i].Id"><i class="fa fa-trash-o"></i></a></td>
                     </tr>
-                }
+                            }
             </tbody>
         </table>
     </div>
     <div class="group_button" data-cookie="@CookieCart" style="shape-margin:20px;">
-        <a href="/dat-hang" style="float:right;">
-            <input type="button" id="paymentbtn" class="btn btn-default" value="Thanh Toán" style="background:#e24d85;color:#ffffff" />
+        <a href="/dat-hang" style="float:right; color:black;">
+            <div style="border:1px solid #e8e8e8;margin-bottom:10px;margin-top:10px; height:40px;">
+                @{
+                    long allTotalmoney = 0;
+                    for (int i = 0; i < Model.Count(); i++)
+                    {
+                        var result1 = Model[i].QuantityProduct * Model[i].PriceProduct;
+                        allTotalmoney += result1;
+                    }
+                }
+                <p style="margin-top:10px;;padding-left:10px;padding-right:10px;">Tổng Tiền : @allTotalmoney ₫</p>
+            </div>
+            <input type="button" id="paymentbtn" class="btn btn-default" value="Thanh Toán" style="background:#e24d85;color:#ffffff;margin-left:24px;" />
         </a>
         <button id="getmodalshow" style="display:none;"></button>
         <a href="/tat-ca-san-pham" style="float:left;">
             <input type="button" class="btn btn-default" value="Tiếp Tục Mua hàng" style="background:#e24d85;color:#ffffff" />
         </a>
-          <a href="/ShopingCart/DeleteAll" style="float:left; margin-left:10px;">
+        <a href="/ShopingCart/DeleteAll" style="float:left; margin-left:10px;">
             <input type="button" class="btn btn-default" value="Xóa" style="background:#e24d85;color:#ffffff" />
-          </a>
+        </a>
         <a style="float:left; margin-left:10px;">
             <input type="submit" class="btn btn-default" value="Cập Nhật Giỏ Hàng" style="background:#e24d85;color:#ffffff" />
         </a>
     </div>
-    }
+                    }
 <style>
     .table-bordered {
         margin-top: 100px;
-        width:100%;
+        width: 100%;
     }
+
     .box_cart tr th {
         text-align: center;
+    }
+
+    a:hover {
+        text-decoration: none;
+    }
+
+    th {
+        height: 50px;
+        background: #ededed;
     }
 </style>
 <script>
