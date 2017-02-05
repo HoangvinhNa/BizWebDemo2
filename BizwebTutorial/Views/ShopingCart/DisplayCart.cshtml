@@ -95,9 +95,10 @@
         var Id = item_decart.attr('data-id');
         $.ajax({
             type: "GET",
-            url: 'ShopingCart/Deleteproduct?Id=' + Id + '',
+            url: '/ShopingCart/Deleteproduct?Id=' + Id + '',
             contentType: "application/json",
             success: function (data) {
+                console.log(Id);
                 $('tr.product_table[data-id=' + Id + ']').remove();
             }
         });

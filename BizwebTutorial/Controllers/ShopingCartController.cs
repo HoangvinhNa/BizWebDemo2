@@ -94,7 +94,7 @@ namespace BizwebTutorial.Controllers
             }
             return View(model);
         }
-        [HttpPost]
+       
         public ActionResult Deleteproduct(int Id)
         {
             List<CartViewModel> cartViewModel = new List<CartViewModel>();
@@ -110,7 +110,7 @@ namespace BizwebTutorial.Controllers
                 cookie.Expires.AddDays(2);
                 HttpContext.Response.Cookies.Add(cookie);
             }
-            return Json("Ok", JsonRequestBehavior.AllowGet);
+            return RedirectToAction("DisplayCart");
         }
         public ActionResult DeleteAll()
         {
