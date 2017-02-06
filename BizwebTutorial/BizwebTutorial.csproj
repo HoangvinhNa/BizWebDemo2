@@ -1579,6 +1579,7 @@
     <Content Include="ImageHome\banner_img2.jpg" />
     <Content Include="ImageHome\banner_img3.jpg" />
     <Content Include="ImageHome\bg_footer-min.png" />
+    <Content Include="ImageHome\bg_login.png" />
     <Content Include="ImageHome\bo_nghe-noi-genius-hs-m220-xanh.jpg" />
     <Content Include="ImageHome\cart.png" />
     <Content Include="ImageHome\charter-club--1-.jpg" />
@@ -1593,6 +1594,7 @@
     <Content Include="ImageHome\layer-5.jpg" />
     <Content Include="ImageHome\login.png" />
     <Content Include="ImageHome\logo.png" />
+    <Content Include="ImageHome\logo_bizweb.png" />
     <Content Include="ImageHome\logo_footer.png" />
     <Content Include="ImageHome\mobile.png" />
     <Content Include="ImageHome\nike--1-.jpg" />

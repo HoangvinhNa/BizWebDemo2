@@ -25,32 +25,30 @@
                 @using (Html.BeginForm("Login", "User", FormMethod.Post))
                 {
                     <form role="form">
-                        <h3 class="text-center margin-xl-bottom">Sign In <span class="semi-bold">now</span></h3>
+                        <h3 class="text-center margin-xl-bottom"><img src="~/ImageHome/logo_bizweb.png" /></h3>
                         <div class="form-group text-center">
-                            <label class="sr-only" for="email">Email Address</label>
-                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control input-lg", @type = "Email", @placeholder = "Password" })
+                            <label class="sr-only" for="email">Tài Khoản Email</label>
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control input-lg", @type = "Email", @placeholder = " Địa chỉ Email" })
                         </div>
                         <div class="form-group text-center">
-                            <label class="sr-only" for="password">Password</label>
-                            @Html.TextBoxFor(m => m.Password, new { @class = "form-control input-lg", @type = "password", @placeholder = "Password" })
+                            <label class="sr-only" for="password">Mật Khẩu</label>
+                            @Html.TextBoxFor(m => m.Password, new { @class = "form-control input-lg", @type = "password", @placeholder = "Mật Khẩu" })
                         </div>
                         @Html.ValidationSummary("", new {@class="text-danger",@style= "list-style: none;" })
-                        <button type="submit" name="login" class="btn btn-primary btn-block btn-lg">Login</button>
+                        <button type="submit" name="login" style="background:#7ec142;color:#fff;" class="btn btn-default btn-block btn-lg">Đăng Nhập</button>
                     </form>
                 }
             </div>
-            <div class="panel-body text-center">
-                <div class="margin-bottom text-muted">
-                    By signing up, you agree to the <a class="text-muted text-underline" href="javascript:;">Terms of Service</a>
-                </div>
-                <div>
-                    Already have an account? <a class="text-primary-dark" href="pages-sign-in.html">Sign in here</a>
-                </div>
-            </div>
+          
         </div>
     </div>
 </body>
 </html>
+<style>
+    .body-sign-up{
+        background:url(../../../../ImageHome/bg_login.png) repeat;
+    }
+</style>
 
 
 
